@@ -1,0 +1,28 @@
+<div style="padding-top: 150px; height:70vh">
+  <!-- <form action=""> -->
+    <div class="form">
+      <section class="left">
+        <div class="input-container">
+          <label for="name">Name</label>
+          <input (change)="handleUpdateInfo('fullname',$event)"  type="text" value={{userInfo.fullname}} />
+        </div>
+        <div class="input-container">
+          <label for="email">Role</label>
+          <input type="text" value={{userInfo.role}} readonly />
+        </div>
+      </section>
+      <section class="right">
+        <div class="input-container">
+          <label for="address">Image</label>
+          <img id="frame" style="width: 100px; margin-bottom: 10px; border-radius: 20px;" src="{{userInfo.image}}" alt="">
+          <input type="file" (change)="handleUpdateInfo('image',$event)">
+        </div>
+       
+      </section>
+      <div class="send-container">
+        <button (click)="onUpdateUserInfo()">Update</button>
+      </div>
+    </div>
+    
+  <!-- </form> -->
+</div>
