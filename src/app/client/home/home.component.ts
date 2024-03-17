@@ -9,6 +9,8 @@ import { courses } from '../../data';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../api/services/auth/auth.service';
 import { CoursesService } from '../../api/services/courses/courses.service';
+
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -37,6 +39,8 @@ export class HomeComponent {
   isEmptyCart: boolean = false;
   title = 'learnHub';
   parentEmitter = new EventEmitter<string>();
+  newRecommendedCourses: any[] = [];
+  cheapHighQualityCourses: any[] = [];
   constructor(
     private router: Router, 
     private authService: AuthService, 
@@ -49,16 +53,37 @@ export class HomeComponent {
     if (userData) {
       this.userInfo = JSON.parse(userData);
     }
-    this.parentEmitter.emit('Hello from the parent component!'); 
+    this.parentEmitter.emit('Hello from the parent component!');
+    this.getCoursesByPriceLower();
+    this.getCoursesByDateNew(); 
   }
-  
+  chunkArray(array: any[], size: number): any[][] {
+    const chunkedArray = [];
+    for (let i = 0; i < array.length; i += size) {
+      chunkedArray.push(array.slice(i, i + size));
+    }
+    return chunkedArray;
+  }
+  getCoursesByPriceLower(): void {
+    this.CoursesService.getCoursesByPriceLower().subscribe(courses => {
+      this.cheapHighQualityCourses = courses;
+    });
+  }
+  getCoursesByDateNew(): void {
+    this.CoursesService.getCoursesByDateNew().subscribe(courses => {
+      this.newRecommendedCourses = courses;
+    });
+  }
   getCourses(): void {
     this.CoursesService.getAllCourses()
       .subscribe(courses => {
         this.coursesList = courses;
       });
+      
   }
-  
+  trackByIdx(index: number, item: any): number {
+    return item.courseID;
+  }
   onChange(key: string, e: any) {
     if (key == 'name') {
       this.name = e.target.value;

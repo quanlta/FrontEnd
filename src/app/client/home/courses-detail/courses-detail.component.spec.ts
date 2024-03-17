@@ -1,23 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { CoursesDetailComponent } from './courses-detail.component';
+@Injectable({
+  providedIn: 'root'
+})
+export class CourseService {
 
-describe('CoursesDetailComponent', () => {
-  let component: CoursesDetailComponent;
-  let fixture: ComponentFixture<CoursesDetailComponent>;
+  private apiUrl = 'http://localhost:8084/courses'; // Thay thế bằng URL của API
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CoursesDetailComponent]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(CoursesDetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  constructor(private http: HttpClient) { }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  getCoursesDetail(courseId: number): Observable<any> {
+    const url = `${this.apiUrl}/showSectionAndVideo/${courseId}`;
+    return this.http.get<any>(url);
+  }
+}

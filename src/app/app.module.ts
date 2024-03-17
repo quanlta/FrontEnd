@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './client/home/home.component';
 import { CoursesService } from './api/services/courses/courses.service';
+import { CoursesDetailComponent } from './client/home/courses-detail/courses-detail.component';
 import {
   HttpClientJsonpModule,
   HttpClientModule,
@@ -18,11 +19,13 @@ import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    
+    CoursesDetailComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserModule,
     ReactiveFormsModule,
     DataTablesModule,
     FormsModule,
@@ -33,6 +36,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     RouterModule.forRoot(routes, { useHash: true }),
   ],
   providers: [provideHttpClient(withFetch()), CoursesService],
-  bootstrap: [],
+  bootstrap: [] // No need to bootstrap any component here
 })
 export class AppModule {}
+export class CoursesDetailModule {}

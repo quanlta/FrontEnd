@@ -18,14 +18,14 @@
             <li class="scroll-to-section"><a routerLink="blog">Blog</a></li>
             <li class="scroll-to-section"><a routerLink="quiz">Quiz</a></li>
             <li class="scroll-to-section"><a routerLink="cart">
-              @if(isEmptyCart){
-              <img width="25" height="25" src="https://img.icons8.com/ios/25/000000/shopping-cart-loaded--v1.png"
-                alt="shopping-cart-loaded--v1" />
+                @if(isEmptyCart){
+                <img width="25" height="25" src="https://img.icons8.com/ios/25/000000/shopping-cart-loaded--v1.png"
+                  alt="shopping-cart-loaded--v1" />
 
-              } @else {
-              <img width="25" height="25" src="https://img.icons8.com/ios/25/add-shopping-cart--v1.png"
-                alt="add-shopping-cart--v1" />
-              }</a></li>
+                } @else {
+                <img width="25" height="25" src="https://img.icons8.com/ios/25/add-shopping-cart--v1.png"
+                  alt="add-shopping-cart--v1" />
+                }</a></li>
             @if (userInfo) {
             <li>
               <div class="dropdown">
@@ -160,7 +160,7 @@
       </div>
       <div class="modal-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center;
       padding: 15px 40px;">
-        
+
         <div style="width: 100%; text-align: left;">OTP</div>
         <input placeholder="OTP" (change)="onChange('otp',$event)"
           style="margin-bottom: 20px; width: 100%; height: 35px; border-radius: 5px; padding: 10px; border: 1px solid gray; " />
@@ -261,9 +261,7 @@
       </div>
     </div>
   </div>
-</div>
-
-
+</div>s
 
 <div id="courses" class="our-portfolio section">
   <div class="container">
@@ -278,55 +276,100 @@
     </div>
   </div>
   <div class="container-fluid " data-wow-duration="1s" data-wow-delay="0.7s">
-    <div class="row">
-      <div class="col-lg-12">
-        <div style="display: flex; justify-content: flex-start; flex-wrap: wrap;">
-          
-          @for (courses of coursesList; track courses.id; let i = $index) {
-          <div [routerLink]="['courses', courses.id]" class="item col-lg-4">
-            <a>
-              <div class="portfolio-item">
-                <div style="padding: 10px;" class="thumb">
-                  <img src="{{ courses.image }}" alt="">
-                </div>
-                <div
-                  style="display: flex; text-align: left; padding: 5px 10px !important; justify-content: flex-start; flex-direction: column; "
-                  class="down-content">
-                  <p style="text-align: left;">{{ courses.level }}</p>
-                  <h4>{{ courses.name }}</h4>
-                  <p>Design Web Sites and Mobile Apps that Your Users Love and Return to Again.</p>
-                  <div style="display: flex; justify-content: flex-start; align-items: center;">
-                    <p style="margin-right: 5px; color: #40ff00;">{{ courses.rate }}</p>
-                    <span style="margin-right: 5px; display: flex;"><img width="20" height="20"
-                        src="https://img.icons8.com/fluency/20/star--v1.png" alt="star--v1" />
-                      <img width="20" height="20" src="https://img.icons8.com/fluency/20/star--v1.png" alt="star--v1" />
-                      <img width="20" height="20" src="https://img.icons8.com/fluency/20/star--v1.png" alt="star--v1" />
-                      <img width="20" height="20" src="https://img.icons8.com/fluency/20/star--v1.png"
-                        alt="star--v1" /></span>
-                    <span style="color: #b1b1b1;">({{ courses.view }})</span>
+    <ng-container *ngFor="let group of chunkArray(cheapHighQualityCourses.slice(0, 8), 4)">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="course-carousel" style="display: flex; justify-content: flex-start; flex-wrap: wrap; margin-left: 150px; margin-right: 100px;">
+            <div *ngFor="let course of group; trackBy: trackByIdx" class="item col-lg-3">
+              <a [routerLink]="['courses/showSectionAndVideo', course.courseID]" style="width: 287px; height: 368px; display: block;">
+                <div class="portfolio-item" style="width: 287px; height: 368px;">
+                  <div style="padding: 10px;" class="thumb">
+                    <img [src]="course.image || 'default-image-url'" alt=""
+                      style="width: 270px; height: 151px; object-fit: cover; border-radius: 2px;">
                   </div>
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div class="down-content"
+                    style="display: flex; text-align: left; padding: 5px 10px !important; justify-content: flex-start; flex-direction: column;">
+                    <p style="text-align: left;">{{ course.level }}</p>
+                    <h4>{{ course.courseTitle }}</h4>
+                    <p>{{course.courseDesY}}</p>
                     <div style="display: flex; justify-content: flex-start; align-items: center;">
-                      <div><img style="width: 50px;" width="50px"
-                          src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?size=338&ext=jpg&ga=GA1.1.2113030492.1708819200&semt=ais"
-                          alt=""></div>
-                      <div style="color: black;">Jane Cooper</div>
+                      <p style="margin-right: 5px; color: #40ff00;">{{ course.ratings }}</p>
+                      <span style="margin-right: 5px; display: flex;">
+                        <img *ngFor="let star of [1, 2, 3, 4]" width="20" height="20"
+                          src="https://img.icons8.com/fluency/20/star--v1.png" alt="star--v1" />
+                      </span>
+                      <span style="color: #b1b1b1;">({{ course.countRating }})</span>
                     </div>
-                    <div style="color: #40ff00; font-weight: bold; font-size: 20px;">{{ courses.price }}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <div style="display: flex; justify-content: flex-start; align-items: center;">
+                        <div><img style="width: 50px;" width="50px"
+                            src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?size=338&ext=jpg&ga=GA1.1.2113030492.1708819200&semt=ais"
+                            alt=""></div>
+                        <div style="color: black;">Jane Cooper</div>
+                      </div>
+                      <div style="color: #40ff00; font-weight: bold; font-size: 20px;">{{ course.coursePrice }}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a>
+              </a>
+            </div>
           </div>
-          }
-
-
         </div>
-
       </div>
-    </div>
+    </ng-container>
   </div>
+
+  <div class="container">
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="section-heading wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+                <h4>See Our Lowest Price <em>Courses</em></h4>
+                <div class="line-dec"></div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="course-carousel" style="display: flex; justify-content: flex-start; flex-wrap: wrap; margin-left: 150px; margin-right: 100px;">
+            <div *ngFor="let course of newRecommendedCourses.slice(0, 8); trackBy: trackByIdx" class="item col-lg-3">
+                <a [routerLink]="['courses', course.courseID]" style="width: 287px; height: 368px; display: block;">
+                    <div class="portfolio-item" style="width: 287px; height: 368px;">
+                        <div style="padding: 10px;" class="thumb">
+                            <img [src]="course.image || 'default-image-url'" alt=""
+                                style="width: 267px; height: 151px; object-fit: cover; border-radius: 2px;">
+                        </div>
+                        <div class="down-content"
+                            style="display: flex; text-align: left; padding: 5px 10px !important; justify-content: flex-start; flex-direction: column;">
+                            <p style="text-align: left;">{{ course.level }}</p>
+                            <h4>{{ course.courseTitle }}</h4>
+                            <p>{{course.courseDesY}}</p>
+                            <div style="display: flex; justify-content: flex-start; align-items: center;">
+                                <p style="margin-right: 5px; color: #40ff00;">{{ course.ratings }}</p>
+                                <span style="margin-right: 5px; display: flex;">
+                                    <img *ngFor="let star of [1, 2, 3, 4]" width="20" height="20"
+                                        src="https://img.icons8.com/fluency/20/star--v1.png" alt="star--v1" />
+                                </span>
+                                <span style="color: #b1b1b1;">({{ course.countRating }})</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; justify-content: flex-start; align-items: center;">
+                                    <div><img style="width: 50px;" width="50px"
+                                            src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?size=338&ext=jpg&ga=GA1.1.2113030492.1708819200&semt=ais"
+                                            alt=""></div>
+                                    <div style="color: black;">Jane Cooper</div>
+                                </div>
+                                <div style="color: #40ff00; font-weight: bold; font-size: 20px;">{{ course.coursePrice }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <div style="z-index: 1 !important;" id="services" class="services section">

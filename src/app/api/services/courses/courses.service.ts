@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Courses } from '../../models/auth.model'; // Kiểm tra xem liệu này có phải là 'Courses' hay 'ResponeCourseDTO' không?
+import { CourseDetail, Courses } from '../../models/auth.model'; // Kiểm tra xem liệu này có phải là 'Courses' hay 'ResponeCourseDTO' không?
 import { ResponeCourseDTO } from '../../models/auth.model'; // Thay đổi đường dẫn đến ResponeCourseDTO nếu cần thiết
 
-const baseUrl = 'http://localhost:8080/';
+const baseUrl = 'http://localhost:8084/';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
@@ -50,5 +50,15 @@ export class CoursesService {
   
   getAllCourses(): Observable<ResponeCourseDTO[]> {
     return this.http.get<ResponeCourseDTO[]>(this.apiUrl);
+  }
+  getCoursesByPriceLower(): Observable<ResponeCourseDTO[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/price/lower`);
+  }
+
+  getCoursesByDateNew(): Observable<ResponeCourseDTO[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/date/new`);
+  }
+  getCourseDetail(courseId: number): Observable<CourseDetail> {
+    return this.http.post<any>(`${this.apiUrl}/showSectionAndVideo/${courseId}`, {});
   }
 }

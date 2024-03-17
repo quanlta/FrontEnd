@@ -18,7 +18,7 @@ export const routes: Routes = [
   { path: 'blog', component: BlogClientComponent },
   { path: 'cart', component: CartComponent },
   {
-    path: 'courses/:id',
+    path: 'courses/showSectionAndVideo/:id',
     component: CoursesDetailComponent,
     title: 'courses details',
   },
