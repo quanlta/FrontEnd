@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { teacher } from '../../data';
 
 @Component({
   selector: 'app-income',
@@ -11,6 +10,5 @@ import { teacher } from '../../data';
 export class IncomeComponent {
   teacherList: any;
   ngOnInit() {
-    this.teacherList = teacher;
   }
 }

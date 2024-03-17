@@ -6,7 +6,6 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { courses } from './data';
 import { AuthService } from './api/services/auth/auth.service';
 @Component({
   selector: 'app-root',
@@ -36,7 +35,6 @@ export class AppComponent {
   title = 'learnHub';
   constructor(private router: Router, private authService: AuthService) { }
   ngOnInit() {
-    this.coursesList = courses;
     this.isEmptyCart = this.hasItemsInCart();
     const userData = localStorage.getItem('user');
     if (userData) {

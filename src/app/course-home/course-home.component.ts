@@ -6,19 +6,16 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../api/services/auth/auth.service';
-import { CoursesService } from '../../api/services/courses/courses.service';
-
-
+import { AuthService } from '../api/services/auth/auth.service';
+import { CoursesService } from '../api/services/courses/courses.service';
 @Component({
-  selector: 'app-home',
+  selector: 'app-course-home',
   standalone: true,
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  templateUrl: './course-home.component.html',
+  styleUrl: './course-home.component.css'
 })
-
-export class HomeComponent {
+export class CourseHomeComponent {
   userInfo: any;
   coursesList: any;
   name: string = '';

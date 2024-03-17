@@ -2,11 +2,12 @@
   <div class="container mb-4">
     <!-- Detail Product -->
     <div class="row no-gutters mt-4">
-      <!-- picture product -->
+      <!-- Picture product -->
       <div class="col-12 col-md-7">
         <!-- Main picture -->
         <div class="col-12 col-lg-10 flex-lg-last border-full-1px-solid border-color-a0">
           <div class="d-flex justify-content-center align-items-center w-100 px-5">
+            <!-- Assuming courseDetail is an object with image property -->
             <img [src]="courseDetail?.image" class="img-fluid" id="main-image" style="max-height:600px;">
           </div>
         </div>
@@ -16,23 +17,21 @@
         <div class="pt-0 pr-2 pb-2 pl-1 pl-md-5">
           <!-- Title -->
           <div class="mb-4">
+            <!-- Assuming courseDetail is an object with courseTitle and level properties -->
             <h1>{{ courseDetail?.courseTitle }}</h1>
-          </div>
-          <!-- Level -->
-          <div class="mb-4">
             <h6 class="text-muted font-size-08 text-uppercase">Level:</h6>
             <h4>{{ courseDetail?.level }}</h4>
           </div>
           <!-- Learning Details -->
           <div class="mb-4">
             <h6 class="text-muted font-size-08 text-uppercase">Learning Details:</h6>
+            <!-- Assuming learningDetail is an object with benefit and objective properties -->
             <p>{{ courseDetail?.learningDetail?.benefit }}</p>
             <p>{{ courseDetail?.learningDetail?.objective }}</p>
           </div>
           <!-- Button -->
           <div>
-            <button *ngIf="courseDetail" type="button" class="mb-1 btn py-3 px-5 bg-inverse text-color-a0 text-uppercase font-weight-bold"
-              style="border-radius:0px; background-color: red;">Add to cart</button>
+            <button *ngIf="courseDetail" type="button" class="mb-1 btn py-3 px-5 bg-inverse text-color-a0 text-uppercase font-weight-bold" style="border-radius:0px; background-color: red;">Add to cart</button>
             <a>
               <h6 class="text-uppercase text-muted font-size-08"><u>Save to Wishlist</u></h6>
             </a>
@@ -41,7 +40,7 @@
       </div>
     </div>
   </div>
-  <!-- Description / Details / shipping -->
+  <!-- Description / Details / Shipping -->
   <div class="container">
     <div class="my-5">
       <ul class="nav nav-tabs" role="tablist">
@@ -53,21 +52,22 @@
       <div class="tab-content font-size-09" style="background-color:#fafafa">
         <div class="tab-pane fade show active px-3 py-4 text-color-a2" id="deskripsi" role="tabpanel">
           <h2><span>List courses</span></h2>
-          <div style="display: flex; width: 100%; height: 382px;">
-            <ul id="playlist">
-              <div style="background-color: #333333; display: flex; color: white;
-                text-align: center; justify-content: center; padding-top: 15px; font-size: 20px;">Danh sách bài học</div>
+          <div style="display: flex; flex-direction: column; height: 382px;">
+            <div style="background-color: #333333; color: white; text-align: center; padding-top: 15px; font-size: 20px;">Danh sách bài học</div>
+            <ul id="playlist" style="overflow-y: auto;">
               <li *ngFor="let section of courseDetail?.sections">
                 <h3>{{ section.sectionName }}</h3>
                 <!-- Articles -->
                 <ul>
                   <li *ngFor="let article of section.articles">
+                    <!-- Assuming article has an articleUrl property -->
                     <a href="{{ article.articleUrl }}" target="_blank">{{ article.title }}</a>
                   </li>
                 </ul>
                 <!-- Videos -->
                 <ul>
                   <li *ngFor="let video of section.videos">
+                    <!-- Assuming video has a videoData property -->
                     <a href="{{ video.videoData }}" target="_blank">{{ video.title }}</a>
                   </li>
                 </ul>
@@ -87,14 +87,16 @@
   <div class="container mb-4">
     <h4 class="text-center text-uppercase">You May Also Like</h4>
     <div class="row no-gutters gutter-20 mt-5 mb-20px">
-      <div *ngFor="let courses of courseList; let i = index" class="col-6 col-md-3">
+      <div *ngFor="let course of courseList; let i = index" class="col-6 col-md-3">
         <div style="border:2px solid #fafafa" class="w-100">
           <div class="d-flex justify-content-center align-items-center">
-            <img class="img-fluid" [src]="courses.image" alt="">
+            <!-- Assuming course has an image property -->
+            <img class="img-fluid" [src]="course.image" alt="">
           </div>
           <div class="text-center py-4">
-            <h6>{{ courses.courseTitle }}</h6>
-            <h6 class="text-muted font-weight-normal">{{ courses.coursePrice }}</h6>
+            <!-- Assuming course has courseTitle and coursePrice properties -->
+            <h6>{{ course.courseTitle }}</h6>
+            <h6 class="text-muted font-weight-normal">{{ course.coursePrice }}</h6>
           </div>
         </div>
       </div>

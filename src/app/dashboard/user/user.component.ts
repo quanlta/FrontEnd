@@ -1,5 +1,4 @@
 import { Component, ElementRef, Renderer2 } from '@angular/core';
-import { teacher, users } from '../../data';
 import { UserService } from '../../api/services/user/user.service';
 
 @Component({

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { teacher } from '../../data';
 
 @Component({
   selector: 'app-blog',
@@ -11,6 +10,5 @@ import { teacher } from '../../data';
 export class BlogComponent {
   teacherList: any;
   ngOnInit() {
-    this.teacherList = teacher;
   }
 }

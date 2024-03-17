@@ -5,7 +5,6 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { courses } from '../../data';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { Subject } from 'rxjs';
 import { FormsModule } from '@angular/forms';
@@ -26,7 +25,6 @@ export class CoursesComponent {
   itemsPerPage: number = 5;
   constructor(private coursesService: CoursesService) { }
   ngOnInit() {
-    this.coursesList = courses;
     this.getListCourses()
   }
   filterCourses(): any[] {
@@ -47,6 +45,22 @@ export class CoursesComponent {
         console.error('delete user failed', error);
       }
     );
+  }
+  showAddCourseForm() {
+    // Show the add course modal
+    const addCourseModal = document.getElementById('addCourseModal');
+    if (addCourseModal) {
+      addCourseModal.style.display = 'block';
+    }
+  }
+
+  saveCourse() {
+    // Process and save the new course data
+    // Close the modal after saving
+    const addCourseModal = document.getElementById('addCourseModal');
+    if (addCourseModal) {
+      addCourseModal.style.display = 'none';
+    }
   }
   pageChanged(event: any): void {
     this.currentPage = event.page;
