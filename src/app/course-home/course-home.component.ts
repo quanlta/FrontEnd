@@ -1,23 +1,31 @@
-import { Component, EventEmitter } from '@angular/core';
+import {   AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild, EventEmitter } from '@angular/core';
 import {
+  ActivatedRoute,
   Router,
   RouterLink,
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../api/services/auth/auth.service';
 import { CoursesService } from '../api/services/courses/courses.service';
 @Component({
   selector: 'app-course-home',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [FormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './course-home.component.html',
   styleUrl: './course-home.component.css'
 })
 export class CourseHomeComponent {
   userInfo: any;
-  coursesList: any;
+  filteredCourses: any[] = [];
+  searchTerm: string = '';
+  coursesList: any[] = [];
   name: string = '';
   password: string = '';
   email: string = '';
@@ -39,11 +47,16 @@ export class CourseHomeComponent {
   cheapHighQualityCourses: any[] = [];
   constructor(
     private router: Router, 
+    private route:ActivatedRoute,
     private authService: AuthService, 
     private CoursesService: CoursesService) { }
-
+    
   ngOnInit() {
-    this.getCourses(); // Gọi phương thức để lấy danh sách khóa học từ API
+    this.searchTerm = this.route.snapshot.params['searchTerm'];
+    this.route.params.subscribe(params => {
+      this.searchTerm = params['searchTerm'];
+      this.getCourses();
+    }); // Gọi phương thức để lấy danh sách khóa học từ API
     this.isEmptyCart = this.hasItemsInCart();
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -52,6 +65,25 @@ export class CourseHomeComponent {
     this.parentEmitter.emit('Hello from the parent component!');
     this.getCoursesByPriceLower();
     this.getCoursesByDateNew(); 
+  }
+  getCourses(): void {
+    this.CoursesService.findByTitle(this.searchTerm)
+      .subscribe(courses => {
+        this.coursesList = courses;
+        this.filteredCourses = this.coursesList;
+      });
+  }
+
+  filterCourses(): void {
+    if (!this.searchTerm) {
+      this.filteredCourses = this.coursesList;
+    } else {
+      this.filteredCourses = this.coursesList.filter((course: any) =>
+        Object.values(course).some(value =>
+          value && value.toString().toLowerCase().includes(this.searchTerm.toLowerCase())
+        )
+      );
+    }
   }
   chunkArray(array: any[], size: number): any[][] {
     const chunkedArray = [];
@@ -70,13 +102,12 @@ export class CourseHomeComponent {
       this.newRecommendedCourses = courses;
     });
   }
-  getCourses(): void {
-    this.CoursesService.getAllCourses()
-      .subscribe(courses => {
-        this.coursesList = courses;
-      });
-      
-  }
+  // getCoursesByCategory(): void {
+  //   this.CoursesService.getCoursesByCategory(this.categoryId)
+  //     .subscribe(courses => {
+  //       this.coursesListByCategory = courses;
+  //     });
+  // }
   trackByIdx(index: number, item: any): number {
     return item.courseID;
   }
