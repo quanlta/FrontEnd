@@ -1,19 +1,10 @@
 import {
-  AfterViewInit,
   Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
 } from '@angular/core';
 import {
   ActivatedRoute,
   Router,
-  RouterLink,
-  RouterLinkActive,
-  RouterOutlet,
 } from '@angular/router';
-import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -36,44 +27,35 @@ export class CoursesComponent {
     private router: Router, 
     private route:ActivatedRoute,
     private coursesService: CoursesService) { 
-      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
-  ngOnInit() {
-    this.searchTerm = this.route.snapshot.params['searchTerm'];
-    // this.getListCourses()
-    this.getCourses();
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.searchTerm = params['searchTerm'];
+      this.getCourses();
+    });
   }
-  chunkArray(array: any[], size: number): any[][] {
-    const chunkedArray = [];
-    for (let i = 0; i < array.length; i += size) {
-      chunkedArray.push(array.slice(i, i + size));
-    }
-    return chunkedArray;
-  }
-  filterCourses(): void {
-    this.filteredCourses = this.coursesList.filter((course: any) =>
-      course.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
-  }
-  trackByIdx(index: number, item: any): number {
-    return item.courseID;
-  }
+
   getCourses(): void {
-    this.coursesService.getAllCourses()
+    this.coursesService.findByTitle(this.searchTerm)
       .subscribe(courses => {
         this.coursesList = courses;
+        this.filteredCourses = this.coursesList;
       });
   }
-  // getListCourses(){
-  //   this.coursesService.findByTitle(this.searchTerm).subscribe({
-  //     next:res =>{
-  //       this.coursesList = res;
-  //       console.log(this.coursesList);
-  //     },error: err =>{
-  //       console.log(err);
-  //     }
-  //   })
-  // }
+
+  filterCourses(): void {
+    if (!this.searchTerm) {
+      this.filteredCourses = this.coursesList;
+    } else {
+      this.filteredCourses = this.coursesList.filter((course: any) =>
+        Object.values(course).some(value =>
+          value && value.toString().toLowerCase().includes(this.searchTerm.toLowerCase())
+        )
+      );
+    }
+  }
+  
+  
   showAddCourseForm() {
     // Show the add course modal
     const addCourseModal = document.getElementById('addCourseModal');
