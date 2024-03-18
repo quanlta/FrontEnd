@@ -8,10 +8,11 @@
               <h4><b>Manage Courses</b></h4>
             </div>
             <div class="col-sm-4">
-              <input type="text" [(ngModel)]="searchTerm" placeholder="Search by Name">
+              <input type="text" [(ngModel)]="searchTerm" placeholder="Search by Name"(ngModelChange)="filterCourses()">
             </div>
             <div style="display: flex; justify-content: flex-end;" class="col-sm-4">
-              <button class="btn btn-success" (click)="showAddCourseForm()">
+
+              <button class="btn btn-success">
                 <i class='fas fa-plus-circle'></i><span> ADD</span>
               </button>
             </div>
@@ -31,7 +32,24 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Your table rows -->
+            <tr *ngFor="let courses of coursesList; trackBy: trackByIdx" >
+              <td>{{ courses.courseTitle }}</td>                                   
+              <td style="display: flex; justify-content: center; align-items: center;"><img style="width: 38px;"
+                  src="{{ courses.image }}" /></td>
+              <td>{{ courses.coursePrice }}</td>
+              <td>{{ courses.type }}</td>
+              <td>{{ courses.rate }}</td>
+              <td>{{ courses.view }}</td>
+              <td>{{ courses.created_at }}</td>
+              <td>
+                <a class="btn"><i class='fas fa-eye view'></i></a>
+                <a class="btn"><i class="fa fa-edit edit"></i></a>
+                <button type="button" class="btn"><i class='fas fa-trash-alt delete'></i></button>
+              </td>
+            </tr>
+            <div class="pagination">
+              <pagination-controls [(ngModel)]="currentPage" (pageChange)="pageChanged($event)"></pagination-controls>
+            </div>
           </tbody>
         </table>
 
