@@ -2,26 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CoursesService } from '../../../api/services/courses/courses.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 // Define the Course interface
 interface Course {
-  courseID: number;
+  courseId: number;
   courseTitle: string;
-  courseDes: string;
+  courseDescription: string;
   coursePrice: number;
-  category: any;
+  category: string | null;
   isPassed: boolean;
   courseDate: string;
-  ratings: any;
+  ratings: number | null;
   level: string;
   tag: string;
-  userId: any;
-  learningDetail: {
-    benefit: string;
-    objective: string;
-  };
-  image: any;
-  videoTrial: any;
+  userId: number | null;
+  learningDetail: LearningDetail;
+  image: string | null;
+  videoTrial: string | null;
   status: number;
   sections: Section[];
   avgRating: number;
@@ -29,18 +27,22 @@ interface Course {
   categoryName: string;
 }
 
-// Define the Section interface
+interface LearningDetail {
+  benefit: string;
+  objective: string;
+}
+
 interface Section {
   sectionId: number;
   sectionName: string;
-  course: any;
+  course: any; // It might be better to define a Course reference type here
   articles: Article[];
   videos: Video[];
   quizzes: Quiz[];
 }
 
 interface Article {
-  articleID: number;
+  articleId: number;
   title: string;
   articleUrl: string;
 }
@@ -54,28 +56,30 @@ interface Video {
 }
 
 interface Quiz {
-  id: number;
+  quizId: number;
   title: string;
   questions: Question[];
 }
 
 interface Question {
-  id: number;
+  questionId: number;
   text: string;
   point: number;
   answers: Answer[];
 }
 
 interface Answer {
-  id: number;
+  answerId: number;
   text: string;
-  correct: boolean;
+  isCorrect: boolean;
 }
 
 @Component({
   selector: 'app-courses-detail',
   templateUrl: './courses-detail.component.html',
   styleUrls: ['./courses-detail.component.css'],
+  imports: [CommonModule],
+  standalone: true
 })
 export class CoursesDetailComponent implements OnInit {
   courseId: number = 0;
@@ -113,41 +117,74 @@ onAddtoCard(c: any) {
   localStorage.setItem('cardItem', JSON.stringify(this.cardItem));
   window.location.reload()
 }
-
-  getCourseDetail(): void {
-    this.coursesService.getCourseDetail(this.courseId).subscribe(
-      (data: any) => {
-        this.courseDetail = {
-          courseID: data.courseID,
-          courseTitle: data.courseTitle,
-          courseDes: data.courseDes,
-          coursePrice: data.coursePrice,
-          category: data.category,
-          isPassed: data.isPassed,
-          courseDate: data.courseDate,
-          ratings: data.ratings,
-          level: data.level,
-          tag: data.tag,
-          userId: data.userId,
-          learningDetail: {
-            benefit: data.learningDetail.benefit,
-            objective: data.learningDetail.objective,
-          },
-          image: data.image,
-          videoTrial: data.videoTrial,
-          status: data.status,
-          sections: data.sections,
-          avgRating: data.avgRating,
-          countRating: data.countRating,
-          categoryName: data.categoryName,
-        };
-        console.log('Course Detail:', this.courseDetail);
-      },
-      (error) => {
-        console.error('Error fetching data:', error);
-      }
-    );
-  }
+getCourseDetail(): void {
+  this.coursesService.getCourseDetail(this.courseId).subscribe(
+    (data: any) => {
+      const courseDetail: Course = {
+        courseId: data.courseID,
+        courseTitle: data.courseTitle,
+        courseDescription: data.courseDes,
+        coursePrice: data.coursePrice,
+        category: data.category,
+        isPassed: data.isPassed,
+        courseDate: data.courseDate,
+        ratings: data.ratings,
+        level: data.level,
+        tag: data.tag,
+        userId: data.userId,
+        learningDetail: {
+          benefit: data.learningDetail.benefit,
+          objective: data.learningDetail.objective,
+        },
+        image: data.image,
+        videoTrial: data.videoTrial,
+        status: data.status,
+        sections: data.sections.map((sectionData: any) => {
+          const section: Section = {
+            sectionId: sectionData.sectionId,
+            sectionName: sectionData.sectionName,
+            course: null, // You might need to assign the course reference here
+            articles: sectionData.articles.map((articleData: any) => ({
+              articleId: articleData.articleID,
+              title: articleData.title,
+              articleUrl: articleData.articleUrl
+            })),
+            videos: sectionData.videos.map((videoData: any) => ({
+              videoId: videoData.videoId,
+              title: videoData.title,
+              description: videoData.description,
+              videoData: videoData.videoData,
+              isTrial: videoData.isTrial
+            })),
+            quizzes: sectionData.quizzes.map((quizData: any) => ({
+              quizId: quizData.id,
+              title: quizData.title,
+              questions: quizData.questions.map((questionData: any) => ({
+                questionId: questionData.id,
+                text: questionData.text,
+                point: questionData.point,
+                answers: questionData.answers.map((answerData: any) => ({
+                  answerId: answerData.id,
+                  text: answerData.text,
+                  isCorrect: answerData.correct
+                }))
+              }))
+            }))
+          };
+          return section;
+        }),
+        avgRating: data.avgRating,
+        countRating: data.countRating,
+        categoryName: data.categoryName
+      };
+      this.courseDetail = courseDetail;
+      console.log('Course Detail:', this.courseDetail);
+    },
+    (error) => {
+      console.error('Error fetching data:', error);
+    }
+  );
+}
   
   
 }

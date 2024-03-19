@@ -1229,4 +1229,52 @@
     text-decoration: none;
     color: red;
   }
-  
+  /* Styles for the section container */
+.qubely-block-63f40b {
+  margin-bottom: 20px;
+}
+
+/* Styles for the section name */
+.qubely-block-63f40b strong {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* Styles for the articles */
+.qubely-block-63f40b .articles-list li {
+  margin-bottom: 8px;
+}
+
+/* Styles for the videos */
+.qubely-block-63f40b .videos-list li {
+  margin-bottom: 8px;
+}
+
+/* Styles for the quizzes */
+.qubely-block-63f40b .quizzes-list li {
+  margin-bottom: 15px;
+}
+
+/* Styles for the question text */
+.qubely-block-63f40b .question-text {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Styles for the answer text */
+.qubely-block-63f40b .answer-text {
+  margin-left: 10px;
+}
+
+/* Styles for correct and incorrect answers */
+.correct-answer {
+  color: green;
+  font-weight: bold;
+}
+
+.incorrect-answer {
+  color: red;
+  font-weight: bold;
+}

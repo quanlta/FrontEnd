@@ -44,126 +44,70 @@ export class ResponeCourseDTO {
     this.created_at = created_at;
   }
 }
-  
 export class CourseDetail {
-  id?: any;
-  name?: string | undefined;
-  price?: string | undefined;
-  type?: string | undefined;
-  rate?: number | undefined;
-  view?: number | undefined;
-  image?: string | undefined;
-  created_at?: string | undefined;
-  sections?: Section[] | undefined;
-
   constructor(
-    id: any,
-    name: string,
-    price: string,
-    type: string,
-    rate: number,
-    view: number,
-    image: string,
-    created_at: string,
-    sections?: Section[]
-  ) {
-    this.id = id;
-    this.name = name;
-    this.price = price;
-    this.type = type;
-    this.rate = rate;
-    this.view = view;
-    this.image = image;
-    this.created_at = created_at;
-    this.sections = sections;
-  }
+    public id?: any,
+    public name?: string,
+    public price?: string,
+    public type?: string,
+    public rate?: number,
+    public view?: number,
+    public image?: string,
+    public created_at?: string,
+    public sections?: Section[]
+  ) {}
 }
 
 export class Section {
-  sectionId?: number;
-  sectionName?: string;
-  articles?: Article[];
-  videos?: Video[];
-  quizzes?: Quiz[];
-
   constructor(
-    sectionId: number,
-    sectionName: string,
-    articles: Article[],
-    videos: Video[],
-    quizzes: Quiz[]
-  ) {
-    this.sectionId = sectionId;
-    this.sectionName = sectionName;
-    this.articles = articles;
-    this.videos = videos;
-    this.quizzes = quizzes;
-  }
+    public sectionId?: number,
+    public sectionName?: string,
+    public articles?: Article[],
+    public videos?: Video[],
+    public quizzes?: Quiz[]
+  ) {}
 }
 
 export class Article {
-  articleID?: number;
-  title?: string;
-  articleUrl?: string;
-
-  constructor(articleID: number, title: string, articleUrl: string) {
-    this.articleID = articleID;
-    this.title = title;
-    this.articleUrl = articleUrl;
-  }
+  constructor(
+    public articleID?: number,
+    public title?: string,
+    public articleUrl?: string
+  ) {}
 }
 
 export class Video {
-  videoId?: number;
-  title?: string;
-  description?: string;
-  videoData?: string;
-  isTrial?: boolean;
-
-  constructor(videoId: number, title: string, description: string, videoData: string, isTrial: boolean) {
-    this.videoId = videoId;
-    this.title = title;
-    this.description = description;
-    this.videoData = videoData;
-    this.isTrial = isTrial;
-  }
+  constructor(
+    public videoId?: number,
+    public title?: string,
+    public description?: string,
+    public videoData?: string,
+    public isTrial?: boolean
+  ) {}
 }
 
 export class Quiz {
-  id?: number;
-  title?: string;
-  questions?: Question[];
-
-  constructor(id: number, title: string, questions: Question[]) {
-    this.id = id;
-    this.title = title;
-    this.questions = questions;
-  }
+  constructor(
+    public id?: number,
+    public title?: string,
+    public questions?: Question[]
+  ) {}
 }
 
 export class Question {
-  id?: number;
-  text?: string;
-  point?: number;
-  answers?: Answer[];
-
-  constructor(id: number, text: string, point: number, answers: Answer[]) {
-    this.id = id;
-    this.text = text;
-    this.point = point;
-    this.answers = answers;
-  }
+  constructor(
+    public id?: number,
+    public text?: string,
+    public point?: number,
+    public answers?: Answer[]
+  ) {}
 }
 
 export class Answer {
-  id?: number;
-  text?: string;
-  correct?: boolean;
-
-  constructor(id: number, text: string, correct: boolean) {
-    this.id = id;
-    this.text = text;
-    this.correct = correct;
-  }
+  constructor(
+    public id?: number,
+    public text?: string,
+    public correct?: boolean
+  ) {}
 }
 
