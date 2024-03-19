@@ -1,17 +1,42 @@
 <div id="courses" class="our-portfolio section">
   <div class="container">
     <div class="row">
-      <div class="col-lg-5">
+      <div class="col-lg-9 col-md-7">
         <div class="section-heading wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
           <h4>Search <em>Courses</em></h4>
           <div class="col-sm-4">
-            <input type="text" [(ngModel)]="searchTerm" placeholder="Search" (ngModelChange)="filterCourses()">
+            <span><input type="text" [(ngModel)]="searchTerm" placeholder="Search"
+                (ngModelChange)="filterCourses()"></span>
           </div>
+          <div class="col-sm-4">
+            <span><input type="number" [(ngModel)]="minValues" placeholder="Min Price"
+                (ngModelChange)="filterCourses()"></span>
+          </div>
+          <div class="col-sm-4">
+            <span><input type="number" [(ngModel)]="maxValues" placeholder="Max Price"
+                (ngModelChange)="filterCourses()"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3">
+        <div class="section-heading wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.3s">
+          <h4>Category</h4>
+          <ul>
+            <li *ngFor="let category of listCategory">
+              <label>
+                <input type="radio" name="selectedCategory" [(ngModel)]="selectedCategory" [value]="category"
+                  (change)="filterCourses()">
+                {{ category.categoryName }}
+              </label>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 <div class="container-fluid " data-wow-duration="1s" data-wow-delay="0.7s">
   <ng-container *ngFor="let group of chunkArray(filteredCourses.slice(0, 8), 4)">
     <div class="row">
@@ -46,7 +71,8 @@
                           alt=""></div>
                       <div style="color: black;">Jane Cooper</div>
                     </div>
-                    <div style="color: #40ff00; font-weight: bold; font-size: 20px;">{{ course.coursePrice }} VNĐ</div>
+                    <div style="color: #40ff00; font-weight: bold; font-size: 20px;">{{ course.coursePrice | currency }}
+                      VNĐ</div>
                   </div>
                 </div>
               </div>

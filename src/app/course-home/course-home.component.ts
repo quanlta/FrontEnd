@@ -10,22 +10,27 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { SliderModule } from 'primeng/slider';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../api/services/auth/auth.service';
+import { CategoryService } from '../api/services/category/category.service';
 import { CoursesService } from '../api/services/courses/courses.service';
 @Component({
   selector: 'app-course-home',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [FormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive, SliderModule],
   templateUrl: './course-home.component.html',
-  styleUrl: './course-home.component.css'
+  styleUrl: './course-home.component.css',
+  providers: [MessageService]
+
 })
-export class CourseHomeComponent {
+export class CourseHomeComponent implements OnInit {
   userInfo: any;
-  filteredCourses: any[] = [];
+  filteredCourses: any;
   searchTerm: string = '';
-  coursesList: any[] = [];
+  coursesList: any;
   name: string = '';
   password: string = '';
   email: string = '';
@@ -45,18 +50,30 @@ export class CourseHomeComponent {
   parentEmitter = new EventEmitter<string>();
   newRecommendedCourses: any[] = [];
   cheapHighQualityCourses: any[] = [];
+  listCategory : any[] = [];
+  minValues: any;
+  maxValues: any ;
+  selectedCategory: any;
   constructor(
     private router: Router, 
     private route:ActivatedRoute,
     private authService: AuthService, 
-    private CoursesService: CoursesService) { }
+    private messageService:MessageService,
+    private categoryService:CategoryService,
+    private CoursesService: CoursesService) {
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+
+     }
     
   ngOnInit() {
     this.searchTerm = this.route.snapshot.params['searchTerm'];
+    this.minValues = this.route.snapshot.params['minValues'];
+    this.maxValues = this.route.snapshot.params['maxValues'];
     this.route.params.subscribe(params => {
       this.searchTerm = params['searchTerm'];
       this.getCourses();
-    }); // Gọi phương thức để lấy danh sách khóa học từ API
+    });
+    this.getCourses(); // Gọi phương thức để lấy danh sách khóa học từ API
     this.isEmptyCart = this.hasItemsInCart();
     const userData = localStorage.getItem('user');
     if (userData) {
@@ -65,26 +82,73 @@ export class CourseHomeComponent {
     this.parentEmitter.emit('Hello from the parent component!');
     this.getCoursesByPriceLower();
     this.getCoursesByDateNew(); 
+    this.getListCategory();
   }
+  getListCategory(): void {
+    this.categoryService.getListCategory().subscribe(res => {
+      this.listCategory = res;
+    });
+  }
+
   getCourses(): void {
     this.CoursesService.findByTitle(this.searchTerm)
       .subscribe(courses => {
         this.coursesList = courses;
-        this.filteredCourses = this.coursesList;
+        this.filterCourses(); // Call filterCourses after retrieving courses
+      });
+  }
+
+  getCoursesByCategory(categoryId: string): void {
+    // Find the category object by categoryId in the list of categories
+    const category = this.listCategory.find(category => category.categoryId === categoryId);
+    if (category) {
+      // If category is found, set it as the selected category
+      this.selectedCategory = category;
+      // Get courses by category
+      this.CoursesService.getCoursesByCategory(categoryId)
+        .subscribe(courses => {
+          this.coursesList = courses;
+          this.filterCourses(); // Apply filtering if necessary
+        });
+    } else {
+      // Handle case when category is not found
+      console.log(`Category with Id '${categoryId}' not found.`);
+    }
+  }
+
+  getListCoursesByPriceRange(): void {
+    this.CoursesService.getListCoursesByPriceRange(this.minValues, this.maxValues)
+      .subscribe(courses => {
+        this.coursesList = courses;
+        this.filterCourses(); // Call filterCourses after retrieving courses
       });
   }
 
   filterCourses(): void {
-    if (!this.searchTerm) {
+    if ((!this.searchTerm && (!this.minValues && (!this.maxValues))) && !this.selectedCategory) {
       this.filteredCourses = this.coursesList;
     } else {
-      this.filteredCourses = this.coursesList.filter((course: any) =>
-        Object.values(course).some(value =>
+      this.filteredCourses = this.coursesList.filter((course: any) => {
+        const searchTermMatch = !this.searchTerm || Object.values(course).some(value =>
           value && value.toString().toLowerCase().includes(this.searchTerm.toLowerCase())
-        )
-      );
+        );
+
+        let priceInRange = true;
+        if (this.minValues && this.maxValues) {
+          priceInRange = course.coursePrice >= this.minValues && course.coursePrice <= this.maxValues;
+        } else if (this.minValues) {
+          priceInRange = course.coursePrice >= this.minValues;
+        } else if (this.maxValues) {
+          priceInRange = course.coursePrice <= this.maxValues;
+        }
+
+        const categoryMatch = !this.selectedCategory || course.categoryName === this.selectedCategory.categoryName;
+
+        return searchTermMatch && priceInRange && categoryMatch;
+      });
     }
   }
+
   chunkArray(array: any[], size: number): any[][] {
     const chunkedArray = [];
     for (let i = 0; i < array.length; i += size) {
@@ -102,12 +166,6 @@ export class CourseHomeComponent {
       this.newRecommendedCourses = courses;
     });
   }
-  // getCoursesByCategory(): void {
-  //   this.CoursesService.getCoursesByCategory(this.categoryId)
-  //     .subscribe(courses => {
-  //       this.coursesListByCategory = courses;
-  //     });
-  // }
   trackByIdx(index: number, item: any): number {
     return item.courseID;
   }
