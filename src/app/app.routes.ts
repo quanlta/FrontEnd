@@ -10,12 +10,14 @@ import { BlogComponent } from './dashboard/blog/blog.component';
 import { BlogClientComponent } from './client/blog/blog.component';
 import { CartComponent } from './client/cart/cart.component';
 import { CourseHomeComponent } from './course-home/course-home.component';
+import { WishlistComponent } from './client/user-info/wishlist/wishlist.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'userInfo', component: UserInfoComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'cart', component: CartComponent },
   { path: 'course-home', component: CourseHomeComponent },
+  { path: 'my-wishlist', component: WishlistComponent },
 
   {
     path: 'courses/showSectionAndVideo/:id',

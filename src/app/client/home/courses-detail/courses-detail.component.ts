@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CoursesService } from '../../../api/services/courses/courses.service';
+import { Router } from '@angular/router';
 
 // Define the Course interface
 interface Course {
@@ -80,13 +81,39 @@ export class CoursesDetailComponent implements OnInit {
   courseId: number = 0;
   courseDetail: Course | null = null; // Fix typo here
   courseList: any;
+  cardItem: any = [];
+  currentURL: string;
 
-  constructor(private route: ActivatedRoute, private coursesService: CoursesService) {}
+  constructor(private route: ActivatedRoute, private coursesService: CoursesService, private router: Router) {    this.currentURL = this.router.url;
+  }
 
   ngOnInit(): void {
     this.courseId = +this.route.snapshot.params['id']; // Convert to number using '+'
     this.getCourseDetail();
+    let url = this.currentURL;
+    let storedCardItem: any = localStorage.getItem('cardItem');
+    this.cardItem = JSON.parse(storedCardItem);
   }
+  formatCoursePrice(price: number | undefined): string {
+    if (price == null) return '';
+    // Format the price to include commas and "VNĐ"
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' VNĐ';
+  }
+  
+// Method to add course to cart
+onAddtoCard(c: any) {
+  const cardItem = JSON.stringify(c);
+
+  if (this.cardItem && this.cardItem.length) {
+    this.cardItem.push(JSON.parse(cardItem));
+  } else {
+    this.cardItem = [JSON.parse(cardItem)];
+  }
+
+  localStorage.setItem('cardItem', JSON.stringify(this.cardItem));
+  window.location.reload()
+}
+
   getCourseDetail(): void {
     this.coursesService.getCourseDetail(this.courseId).subscribe(
       (data: any) => {

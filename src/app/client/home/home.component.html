@@ -306,8 +306,8 @@
                             alt=""></div>
                         <div style="color: black;">Jane Cooper</div>
                       </div>
-                      <div style="color: #40ff00; font-weight: bold; font-size: 20px;">{{ course.coursePrice }} VNĐ</div>
-                    </div>
+                      <div style="color: #40ff00; font-weight: bold; font-size: 20px;">{{ course.coursePrice |
+                        currency:'VND':'symbol':'1.0-0' }}</div>                    </div>
                   </div>
                 </div>
               </a>
@@ -363,8 +363,8 @@
                                 alt=""></div>
                             <div style="color: black;">Jane Cooper</div>
                           </div>
-                          <div style="color: #40ff00; font-weight: bold; font-size: 20px;">{{ course.coursePrice }} VNĐ</div>
-                        </div>
+                          <div style="color: #40ff00; font-weight: bold; font-size: 20px;">{{ course.coursePrice |
+                            currency:'VND':'symbol':'1.0-0' }}</div>                        </div>
                       </div>
                     </div>
                   </a>

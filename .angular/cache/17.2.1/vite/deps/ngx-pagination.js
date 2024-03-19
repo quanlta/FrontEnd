@@ -3,7 +3,7 @@ import {
   DecimalPipe,
   NgForOf,
   NgIf
-} from "./chunk-S3Z3KO2R.js";
+} from "./chunk-BVPN6P7B.js";
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -44,8 +44,7 @@ import {
   ɵɵtextInterpolate,
   ɵɵtextInterpolate1,
   ɵɵtextInterpolate2
-} from "./chunk-NIZXKVAF.js";
-import "./chunk-WKYGNSYM.js";
+} from "./chunk-S4QKGH5G.js";
 
 // node_modules/ngx-pagination/fesm2020/ngx-pagination.mjs
 function PaginationControlsComponent_ul_3_li_1_a_1_Template(rf, ctx) {

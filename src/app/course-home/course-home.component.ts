@@ -10,8 +10,7 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { SliderModule } from 'primeng/slider';
+
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../api/services/auth/auth.service';
@@ -20,13 +19,14 @@ import { CoursesService } from '../api/services/courses/courses.service';
 @Component({
   selector: 'app-course-home',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive, SliderModule],
+  imports: [FormsModule, CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './course-home.component.html',
-  styleUrl: './course-home.component.css',
-  providers: [MessageService]
+  styleUrl: './course-home.component.css'
 
 })
 export class CourseHomeComponent implements OnInit {
+  currentPage: number = 1;
+  itemsPerPage: number = 9;
   userInfo: any;
   filteredCourses: any;
   searchTerm: string = '';
@@ -58,7 +58,6 @@ export class CourseHomeComponent implements OnInit {
     private router: Router, 
     private route:ActivatedRoute,
     private authService: AuthService, 
-    private messageService:MessageService,
     private categoryService:CategoryService,
     private CoursesService: CoursesService) {
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -89,7 +88,29 @@ export class CourseHomeComponent implements OnInit {
       this.listCategory = res;
     });
   }
+  get totalPages(): number {
+    return Math.ceil(this.filteredCourses.length / this.itemsPerPage);
+  }
 
+  get totalPagesArray(): number[] {
+    return Array(this.totalPages).fill(0).map((x, i) => i + 1);
+  }
+
+  get coursesToShow(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredCourses.slice(startIndex, endIndex);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
+  }
+
+  get pagedCourses(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredCourses.slice(startIndex, endIndex);
+  }
   getCourses(): void {
     this.CoursesService.findByTitle(this.searchTerm)
       .subscribe(courses => {
@@ -125,29 +146,29 @@ export class CourseHomeComponent implements OnInit {
   }
 
   filterCourses(): void {
-    if ((!this.searchTerm && (!this.minValues && (!this.maxValues))) && !this.selectedCategory) {
+    if (!this.searchTerm && !this.minValues && !this.maxValues && !this.selectedCategory) {
+      // If no filters applied, show all courses
       this.filteredCourses = this.coursesList;
     } else {
       this.filteredCourses = this.coursesList.filter((course: any) => {
+        // Check if the course matches the search term
         const searchTermMatch = !this.searchTerm || Object.values(course).some(value =>
           value && value.toString().toLowerCase().includes(this.searchTerm.toLowerCase())
         );
-
-        let priceInRange = true;
-        if (this.minValues && this.maxValues) {
-          priceInRange = course.coursePrice >= this.minValues && course.coursePrice <= this.maxValues;
-        } else if (this.minValues) {
-          priceInRange = course.coursePrice >= this.minValues;
-        } else if (this.maxValues) {
-          priceInRange = course.coursePrice <= this.maxValues;
-        }
-
+  
+        // Check if the course price is within the specified range
+        const priceInRange = (!this.minValues || course.coursePrice >= this.minValues) &&
+                             (!this.maxValues || course.coursePrice <= this.maxValues);
+  
+        // Check if the course belongs to the selected category
         const categoryMatch = !this.selectedCategory || course.categoryName === this.selectedCategory.categoryName;
-
+  
+        // Return true if all conditions are met
         return searchTermMatch && priceInRange && categoryMatch;
       });
     }
   }
+  
 
   chunkArray(array: any[], size: number): any[][] {
     const chunkedArray = [];

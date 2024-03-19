@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../api/services/auth/auth.service';
+import { AuthService } from '../../../api/services/auth/auth.service';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { RouterLink } from '@angular/router';
 @Component({
-  selector: 'app-user-info',
-  templateUrl: './user-info.component.html',
+  selector: 'app-wishlist',
   standalone: true,
+  templateUrl: './wishlist.component.html',
+  styleUrl: './wishlist.component.css',
   imports: [ RouterLink],
 
-  styleUrls: ['./user-info.component.css']
 })
-export class UserInfoComponent implements OnInit {
+export class WishlistComponent {
   userInfo: any;
   fullname: any;
   age: any;

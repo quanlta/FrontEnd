@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { CoursesService } from './api/services/courses/courses.service';
 import { CoursesDetailComponent } from './client/home/courses-detail/courses-detail.component';
