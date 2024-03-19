@@ -51,10 +51,15 @@ export class CoursesService {
   getAllCourses(): Observable<ResponeCourseDTO[]> {
     return this.http.get<ResponeCourseDTO[]>(this.apiUrl);
   }
+  getCoursesByCategory(categoryId: String): Observable<ResponeCourseDTO[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/category/${categoryId}`);
+  }
   getCoursesByPriceLower(): Observable<ResponeCourseDTO[]> {
     return this.http.get<any[]>(`${this.apiUrl}/price/lower`);
   }
-
+  getListCoursesByPriceRange(minPrice: number, maxPrice: number): Observable<ResponeCourseDTO[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/courses?minPrice=${minPrice}&maxPrice=${maxPrice}`);
+  }
   getCoursesByDateNew(): Observable<ResponeCourseDTO[]> {
     return this.http.get<any[]>(`${this.apiUrl}/date/new`);
   }
