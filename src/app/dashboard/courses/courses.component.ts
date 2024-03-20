@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CoursesService } from '../../api/services/courses/courses.service';
+import { ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-courses',
@@ -23,16 +24,43 @@ export class CoursesComponent {
   searchTerm: string = '';
   currentPage: number = 1;
   itemsPerPage: number = 5;
+  activeTab: any = 'tab1';
+
   constructor(    
     private router: Router, 
     private route:ActivatedRoute,
-    private coursesService: CoursesService) { 
+    private coursesService: CoursesService, private renderer: Renderer2, private el: ElementRef) { 
     }
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.searchTerm = params['searchTerm'];
       this.getCourses();
     });
+  }
+
+  openTab(tabName: string) {
+    this.activeTab = tabName
+    const tablinks = this.el.nativeElement.querySelectorAll('.tab-links');
+    const tabcontents = this.el.nativeElement.querySelectorAll('.tab-contents');
+
+    tablinks.forEach((tablink: HTMLElement) => {
+      this.renderer.removeClass(tablink, 'active-link');
+    });
+
+    tabcontents.forEach((tabcontent: HTMLElement) => {
+      this.renderer.removeClass(tabcontent, 'active-tab');
+    });
+
+    const clickedTabLink = this.el.nativeElement.querySelector(`.tab-links[data-tab="${tabName}"]`);
+    const targetTabContent = this.el.nativeElement.querySelector(`.tab-contents#${tabName}`);
+
+    if (clickedTabLink) {
+      this.renderer.addClass(clickedTabLink, 'active-link');
+    }
+
+    if (targetTabContent) {
+      this.renderer.addClass(targetTabContent, 'active-tab');
+    }
   }
 
   getCourses(): void {
@@ -42,8 +70,7 @@ export class CoursesComponent {
         this.filteredCourses = this.coursesList;
       });
   }
-
-  filterCourses(): void {
+  filterCourses(): any[] {
     if (!this.searchTerm) {
       this.filteredCourses = this.coursesList;
     } else {
@@ -53,6 +80,7 @@ export class CoursesComponent {
         )
       );
     }
+    return this.filteredCourses || []; // Return the filtered courses or an empty array
   }
   
   

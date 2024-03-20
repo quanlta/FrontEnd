@@ -1,79 +1,97 @@
-<div class="container">
+<div class="container" style="height: 100vh;">
   <div class="container-xl">
-    <div class="table">
-      <div class="table-wrapper">
-        <div class="table-title">
-          <div class="row">
-            <div class="col-sm-4">
-              <h4><b>Manage Courses</b></h4>
-            </div>
-            <div class="col-sm-4">
-              <input type="text" [(ngModel)]="searchTerm" placeholder="Search by Name" (ngModelChange)="filterCourses()">
-            </div>
-            <div style="display: flex; justify-content: flex-end;" class="col-sm-4">
+    <div class="tab-titles">
+      <p  [class.active-link]="activeTab === 'tab1'" class="tab-links active-link" (click)="openTab('tab1')">Courses</p>
+      <p [class.active-link]="activeTab === 'tab2'" class="tab-links" (click)="openTab('tab2')">Add a Course</p>
+    </div>
+    <div class="tab-contents active-tab" id="tab1">
+      <div class="table">
+        <div class="table-wrapper">
+          <div class="table-title">
+            <div class="row">
+              <div class="col-sm-6">
+                <h4><b>Manage User</b></h4>
+              </div>
 
-              <button class="btn btn-success">
-                <i class='fas fa-plus-circle'></i><span> ADD</span>
-              </button>
             </div>
           </div>
-        </div>
-        <table class="table table-striped table-hover table-bordered table-content">
-          <thead>
-            <tr class="center-align">
-              <th>Name</th>
-              <th>image</th>
-              <th>price</th>
-              <th>type</th>
-              <th>rate</th>
-              <th>view</th>
-              <th>created at</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr  *ngFor="let courses of filteredCourses" >
-              <td>{{ courses.courseTitle }}</td>                                   
-              <td style="display: flex; justify-content: center; align-items: center;"><img style="width: 38px;"
-                  src="{{ courses.image }}" /></td>
-              <td>{{ courses.coursePrice }}</td>
-              <td>{{ courses.type }}</td>
-              <td>{{ courses.rate }}</td>
-              <td>{{ courses.view }}</td>
-              <td>{{ courses.created_at }}</td>
-              <td>
-                <a class="btn"><i class='fas fa-eye view'></i></a>
-                <a class="btn"><i class="fa fa-edit edit"></i></a>
-                <button type="button" class="btn"><i class='fas fa-trash-alt delete'></i></button>
-              </td>
-            </tr>
-            <div class="pagination">
+          <table class="table table-striped table-hover table-bordered table-content">
+            <thead>
+              <tr class="center-align">
+                <th>Name</th>
+                <th>image</th>
+                <th>price</th>
+                <th>type</th>
+                <th>rate</th>
+                <th>created at</th>
+                <th>Actions</th>
+  
+              </tr>
+            </thead>
+            <tbody>
+              @for (courses of filteredCourses; track courses.id; let i = $index) {
+                <tr>
+                  <td>{{ courses.courseTitle }}</td>
+                  <td><img src="{{ courses.image }}" style="width: 100px; height: auto;" /></td>
+                  <td>{{ courses.coursePrice }}</td>
+                  <td>{{ courses.categoryName }}</td>
+                  <td>{{ courses.created_at }}</td>
+
+                  <td>{{ courses.courseDate }}</td>
+                  <td>
+                    <a class="btn"><i class='fas fa-eye view'></i></a>
+                    <a class="btn"><i class="fa fa-edit edit"></i></a>
+                    <button type="button" class="btn"><i class='fas fa-trash-alt delete'></i></button>
+                  </td>
+  
+                </tr>
+  
+                }
+  <div class="pagination">
               <pagination-controls [(ngModel)]="currentPage" (pageChange)="pageChanged($event)"></pagination-controls>
             </div>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+ 
+       
 
-        <!-- Modal for Add Course -->
-        <div id="addCourseModal" class="modal" style="display: none;">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title">Add Course</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-              </div>
-              <div class="modal-body">
-                <!-- Your form for adding a new course -->
-                <!-- Include form fields for course details -->
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" (click)="saveCourse()">Save</button>
-              </div>
-            </div>
-          </div>
+        
         </div>
-
       </div>
     </div>
+    <div class="tab-contents" id="tab2">
+      <div class="table">
+        <div class="table-wrapper">
+          <div class="table-title">
+            <div class="row">
+              <div class="col-sm-6">
+                <h4><b>Add a Course</b></h4>
+              </div>
+
+            </div>
+          </div>
+          <table class="table table-striped table-hover table-bordered table-content">
+            <thead>
+              <tr class="center-align">
+                <th>Name</th>
+                <th>email</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+    
+              <div class="pagination">
+                <a href="#">&laquo;</a>
+                <a href="#">1</a>
+                <a href="#">&raquo;</a>
+              </div>
+            </tbody>
+          </table>
+     
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </div>
