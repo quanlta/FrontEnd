@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs';
+import { of } from 'rxjs';
 
 const AUTH_API = 'http://localhost:8084/api/user/v1/';
 
@@ -8,33 +10,17 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
 };
 
-
-
-const accessToken = localStorage.getItem('accessToken');
-
-const httOptionsUploadVideo = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${accessToken}`,
-  }),
-}
-
-const httpOptionsAuth = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${accessToken}`,
-  }),
-};
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) { }
+  private currentUser: any; // Store the current user information
+
+  constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'login',
+      `${AUTH_API}login`,
       {
         email,
         password,
@@ -42,9 +28,10 @@ export class AuthService {
       httpOptions
     );
   }
+
   verifySignup(email: string, otp: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'verify',
+      `${AUTH_API}verify`,
       {
         otp,
         email,
@@ -53,6 +40,25 @@ export class AuthService {
     );
   }
 
+  // Lưu thông tin người dùng vào session
+  setUserInfo(userInfo: any): void {
+    sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+  }
+
+  // Lấy thông tin người dùng từ session
+  getInfo(): any {
+    const userInfoString = sessionStorage.getItem('userInfo');
+    return userInfoString ? JSON.parse(userInfoString) : null;
+  }
+  getCurrentUser(): Observable<any> {
+    // Assuming the user information is obtained from an API endpoint
+    return this.http.get<any>('http://localhost:8084/api/user/v1/info').pipe(
+      catchError(error => {
+        console.error('Error fetching user info:', error);
+        return of(null); // Return an Observable that emits null in case of an error
+      })
+    );
+  }
   register(
     fullname: string,
     password: string,
@@ -60,33 +66,34 @@ export class AuthService {
     facebook: string
   ): Observable<any> {
     return this.http.post(
-      AUTH_API + 'register',
+      `${AUTH_API}register`,
       {
         fullname,
         email,
         password,
         facebook,
       },
-      httpOptions,
-
+      httpOptions
     );
   }
+
   forgotPassword(email: string): Observable<any> {
     return this.http.post(
-      AUTH_API + 'forgetPassword',
+      `${AUTH_API}forgetPassword`,
       {
         email,
       },
       httpOptions
     );
   }
+
   verifyForgotPassword(
     email: string,
     otp: string,
     newPassword: string
   ): Observable<any> {
     return this.http.post(
-      AUTH_API + 'verifyForgetPassword',
+      `${AUTH_API}verifyForgetPassword`,
       {
         email,
         otp,
@@ -100,7 +107,14 @@ export class AuthService {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.http.post(AUTH_API + 'avatar', formData, httpOptionsAuth);
+    const accessToken = localStorage.getItem('accessToken');
+    const httpOptionsAuth = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${accessToken}`,
+      }),
+    };
+
+    return this.http.post(`${AUTH_API}avatar`, formData, httpOptionsAuth);
   }
 
   updateUserInfo(
@@ -108,11 +122,19 @@ export class AuthService {
     fullname: string,
     facebook: string,
     image: string,
-    roleId?: 2,
-    enable?: true
+    roleId: number = 2,
+    enable: boolean = true
   ): Observable<any> {
+    const accessToken = localStorage.getItem('accessToken');
+    const httpOptionsAuth = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      }),
+    };
+
     return this.http.put(
-      AUTH_API + id,
+      `${AUTH_API}${id}`,
       {
         fullname,
         facebook,
@@ -125,14 +147,24 @@ export class AuthService {
   }
 
   getUserInfo(): Observable<any> {
-    return this.http.get(
-      AUTH_API + 'info',
-      httpOptionsAuth
-    );
+    const accessToken = localStorage.getItem('accessToken');
+    const httpOptionsAuth = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${accessToken}`,
+      }),
+    };
+
+    return this.http.get(`${AUTH_API}info`, httpOptionsAuth);
   }
 
-
   logout(): Observable<any> {
-    return this.http.post(AUTH_API + 'signout', {}, httpOptions);
+    const accessToken = localStorage.getItem('accessToken');
+    const httpOptionsAuth = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${accessToken}`,
+      }),
+    };
+
+    return this.http.post(`${AUTH_API}signout`, {}, httpOptionsAuth);
   }
 }
