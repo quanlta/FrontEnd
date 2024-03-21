@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../api/services/auth/auth.service';
 import { CoursesService } from '../../api/services/courses/courses.service';
 
-
+import { BlogService } from '../../blog-service.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -40,12 +40,16 @@ export class HomeComponent {
   parentEmitter = new EventEmitter<string>();
   newRecommendedCourses: any[] = [];
   cheapHighQualityCourses: any[] = [];
+blogs: any;
   constructor(
     private router: Router, 
     private authService: AuthService, 
-    private CoursesService: CoursesService) { }
-
+    private CoursesService: CoursesService,     private blogService: BlogService
+    ) { }
   ngOnInit() {
+    this.blogService.getAllBlogs().subscribe(data => {
+      this.blogs = data;
+    });
     this.getCourses(); // Gọi phương thức để lấy danh sách khóa học từ API
     this.isEmptyCart = this.hasItemsInCart();
     const userData = localStorage.getItem('user');
