@@ -20,7 +20,6 @@ import { AbstractControl } from '@angular/forms';
   styleUrl: './courses.component.css',
 })
 export class CoursesComponent {
-  showCreateForm: boolean = false;
   courseForm: FormGroup;
   coursesList: any[] = [];
   filteredCourses: any[] = [];
@@ -28,35 +27,40 @@ export class CoursesComponent {
   currentPage: number = 1;
   itemsPerPage: number = 5;
   activeTab: any = 'tab1';
+  listLevels: string[] = ['Beginner', 'Intermediate', 'Advanced'];
+  listCategory: any[] = [];
+  selectedCategoryId: number | null = null;
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private categoryService: CategoryService,
     private route: ActivatedRoute,
-    private coursesService: CoursesService, private renderer: Renderer2, private el: ElementRef) {
+    private coursesService: CoursesService,
+    private renderer: Renderer2,
+    private el: ElementRef) {
     this.courseForm = this.fb.group({
-      articleFiles: [''],
-      videoFiles: [''],
-      videoTrial: [''],
-      imageFile: [''],
       courseDTO: this.fb.group({
         courseTitle: ['', Validators.required],
         courseDes: ['', Validators.required],
         coursePrice: [null, Validators.required],
         category: this.fb.group({
-          categoryId: [null, Validators.required],
+          categoryId: ['', Validators.required],
           categoryName: ['', Validators.required]
         }),
-        courseDate: ['', Validators.required],
         level: ['', Validators.required],
         tag: [''],
+        courseDate: [this.getCurrentDateTime(), Validators.required],
         learningDetail: this.fb.group({
           objective: [''],
           benefit: ['']
         }),
         status: [1, Validators.required],
         sections: this.fb.array([])
-      })
+      }),
+      articleFiles: [null],
+      videoFiles: File,
+      videoTrial: File,
+      imageFile: File,
     });
   }
   ngOnInit(): void {
@@ -65,32 +69,44 @@ export class CoursesComponent {
       this.searchTerm = params['searchTerm'];
       this.getCourses();
     });
+    this.getListCategory();
   }
-  
+  // Hàm này trả về thời gian hiện tại dưới dạng chuỗi định dạng ISO 8601
+  getCurrentDateTime(): string {
+    return new Date().toISOString();
+  }
+
+  getListCategory(): void {
+    this.categoryService.getListCategory().subscribe(res => {
+      this.listCategory = res;
+    });
+  }
+
   get sections(): FormArray {
-    return this.courseForm.get('sections') as FormArray;
+    const courseDTO = this.courseForm.get('courseDTO') as FormGroup;
+    return courseDTO.get('sections') as FormArray;
   }
-
-
   addSection(): void {
-    const sections = this.courseForm.get('sections') as FormArray;
-    if (sections) {
-      sections.push(this.fb.group({
-        sectionName: ['', Validators.required],
-        articles: this.fb.array([]),
-        videos: this.fb.array([]),
-        quizzes: this.fb.array([this.createQuiz()])
-      }));
-    }
-  }
+    const courseDTO = this.courseForm.get('courseDTO') as FormGroup;
+    const sections = courseDTO.get('sections') as FormArray;
+    sections.push(this.fb.group({
+      sectionName: ['', Validators.required],
+      articles: this.fb.array([]),
+      videos: this.fb.array([]),
+      quizzes: this.fb.array([this.createQuiz()])
+    }));
 
+  }
   createQuiz(): FormGroup {
     return this.fb.group({
       quizTitle: ['Quiz', Validators.required],
       questions: this.fb.array([this.createQuestion()])
     });
   }
-
+  addQuiz(sectionIndex: number): void {
+    const quizzes = (this.sections.at(sectionIndex).get('quizzes') as FormArray);
+    quizzes.push(this.createQuiz());
+  }
   createQuestion(): FormGroup {
     return this.fb.group({
       questionText: ['', Validators.required],
@@ -101,13 +117,23 @@ export class CoursesComponent {
       ])
     });
   }
-
+  addQuestion(sectionIndex: number, quizIndex: number): void {
+    const questions = (this.sections.at(sectionIndex).get('quizzes') as FormArray)
+      .at(quizIndex)
+      .get('questions') as FormArray;
+    questions.push(this.createQuestion());
+  }
   createAnswer(isCorrect: boolean): FormGroup {
     return this.fb.group({
       answerText: ['', Validators.required],
       isCorrect: [isCorrect]
     });
   }
+  addAnswer(sectionIndex: number, quizIndex: number, questionIndex: number): void {
+    const answers = (((this.sections.at(sectionIndex).get('quizzes') as FormArray).at(quizIndex).get('questions') as FormArray).at(questionIndex).get('answerDTOs') as FormArray);
+    answers.push(this.createAnswer(false)); // Thêm một câu trả lời mới vào danh sách
+  }
+
 
   addArticle(sectionIndex: number, title: string): void {
     const articles = this.sections.at(sectionIndex).get('articles') as FormArray;
@@ -147,23 +173,72 @@ export class CoursesComponent {
     const videos = this.sections.at(sectionIndex).get('videos') as FormArray;
     return videos.controls;
   }
-  onSubmit(): void {
-    const formData = new FormData();
-    Object.keys(this.courseForm.value).forEach(key => {
-      if (Array.isArray(this.courseForm.value[key])) {
-        const files = this.courseForm.value[key] as FileList;
-        for (let i = 0; i < files.length; i++) {
-          formData.append(key, files[i]);
-        }
-      } else {
-        formData.append(key, this.courseForm.value[key]);
-      }
-    });
-
-    this.coursesService.create(formData).subscribe(response => {
-      // Handle response
-    });
+  getQuizControls(sectionIndex: number): AbstractControl[] {
+    const quizzes = this.sections.at(sectionIndex).get('quizzes') as FormArray;
+    return quizzes.controls;
   }
+
+  getQuestionControls(sectionIndex: number, quizIndex: number): AbstractControl[] {
+    const questions = (this.sections.at(sectionIndex).get('quizzes') as FormArray).at(quizIndex).get('questions') as FormArray;
+    return questions.controls;
+  }
+
+  getAnswerControls(sectionIndex: number, quizIndex: number, questionIndex: number): AbstractControl[] {
+    const answers = ((this.sections.at(sectionIndex).get('quizzes') as FormArray).at(quizIndex).get('questions') as FormArray).at(questionIndex).get('answerDTOs') as FormArray;
+    return answers.controls;
+  }
+
+  onSubmit(): void {
+    const courseDTOstring = this.courseForm.value.courseDTO;
+    const articleFiles = this.courseForm.value.articleFiles;
+    const videoFiles = this.courseForm.value.videoFiles;
+    const videoTrial = this.courseForm.value.videoTrial;
+    const imageFile = this.courseForm.value.imageFile;
+  
+    const courseDTO = JSON.stringify(courseDTOstring);
+  
+    const formData = new FormData();
+    formData.append('courseDTO', this.courseForm.value.courseDTO);
+  
+    if (articleFiles) {
+      for (let i = 0; i < articleFiles.length; i++) {
+        formData.append('articleFiles', articleFiles[i]);
+      }
+    }
+  
+    if (videoFiles) {
+      for (let i = 0; i < videoFiles.length; i++) {
+        formData.append('videoFiles', videoFiles[i]);
+      }
+    }
+
+    if (videoTrial) {
+      formData.append('videoTrial', videoTrial);
+    }
+  
+    if (imageFile) {
+      formData.append('ImageFile', imageFile);
+    }
+  
+    // Gửi yêu cầu POST đến server
+    this.coursesService.createCourse(formData).subscribe(
+      response => {
+        console.log("", JSON.stringify(this.courseForm.value.courseDTO));
+        console.log("ImageFile:", imageFile);
+        console.log("VideoTrial:", videoTrial);
+        console.log("VideoFiles:", videoFiles);
+        console.log("ArticleFiles:", articleFiles);
+        console.log("Success:", response);
+      },
+      error => {
+        console.log("Error:", error);
+      }
+    );
+  }
+  
+  
+  
+  
   openTab(tabName: string) {
     this.activeTab = tabName
     const tablinks = this.el.nativeElement.querySelectorAll('.tab-links');

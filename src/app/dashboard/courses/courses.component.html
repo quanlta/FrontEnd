@@ -59,28 +59,13 @@
           <div class="table-title">
             <div class="row">
               <div class="col-sm-6">
-                <div *ngIf="!showCreateForm">
+                <!-- <div *ngIf="!showCreateForm">
                   <button (click)="showCreateForm = true">Create Course</button>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
-          <div *ngIf="showCreateForm">
-            <form [formGroup]="courseForm">
-              <label for="courseTitle">Course Title:</label>
-              <input type="text" formControlName="courseTitle" id="courseTitle" required>
-              <br>
-
-              <label for="courseDes">Course Description:</label>
-              <textarea formControlName="courseDes" id="courseDes" required></textarea>
-              <br>
-
-              <label for="coursePrice">Course Price:</label>
-              <input type="number" formControlName="coursePrice" id="coursePrice" required>
-              <br>
-
-              <!-- Add other course fields as necessary -->
-              <!-- File Inputs -->
+            <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
               <label for="articleFiles">Article Files:</label>
               <input type="file" id="articleFiles" name="articleFiles" multiple
                 (change)="onFileSelected($event, 'articleFiles')">
@@ -100,56 +85,130 @@
               <input type="file" id="imageFile" name="imageFile" multiple
                 (change)="onFileSelected($event, 'imageFile')">
               <br>
-              <!-- Sections -->
-              <label for="sections">Sections:</label>
-              <button type="button" (click)="addSection()">+</button>
-              <div formArrayName="sections">
-                <div *ngFor="let section of sections.controls; let i = index">
-                  <!-- <div *ngFor="let section of sections.controls; let i = index"> -->
 
-                  <div [formGroupName]="i">
-                    <h2>Section {{ i + 1 }}</h2>
-                    <label for="sectionName">Section Name:</label>
-                    <input type="text" formControlName="sectionName" id="sectionName">
-                    <br>
-                    <!-- Articles -->
-                    <h3>Articles</h3>
-                    <button type="button" (click)="addArticle(i, 'Article Title')">Add Article</button>
-                    <div *ngIf="getArticleControls(i).length > 0">
-                      <div formArrayName="articles">
-                        <div *ngFor="let article of getArticleControls(i); let j = index">
-                          <div [formGroupName]="j">
-                            <label for="articleTitle">Article Title:</label>
-                            <input type="text" formControlName="title" id="articleTitle">
-                            <br>
+              <div formGroupName="courseDTO">
+                <label for="courseTitle">Course Title:</label>
+                <input type="text" formControlName="courseTitle" id="courseTitle" required>
+                <br>
+                <label for="courseDes">Course Description:</label>
+                <textarea formControlName="courseDes" id="courseDes" required></textarea>
+                <br>
+                <label for="coursePrice">Course Price:</label>
+                <input type="number" formControlName="coursePrice" id="coursePrice" required>
+                <br>
+
+                <label for="category">Category:</label>
+                <select formControlName="category" id="category">
+                  <option *ngFor="let category of listCategory" [ngValue]="category">{{ category.categoryName }}
+                  </option>
+                </select>
+                <br>
+                <label for="level">Level:</label>
+                <select formControlName="level" id="level">
+                  <option *ngFor="let level of listLevels" [value]="level">{{ level }}</option>
+                </select>
+                <br>
+                <label for="tag">Tag:</label>
+                <input type="text" formControlName="tag" id="tag" required>
+                <br>
+                <div formGroupName="learningDetail">
+                  <h4>LearningDetail</h4>
+                <label for="tag">Objective:</label>
+                <input type="text" formControlName="objective" id="objective" required>
+                <br>
+                <label for="tag">Benefit:</label>
+                <input type="text" formControlName="benefit" id="benefit" required>
+                <br>
+                </div>
+                <!-- Sections -->
+                <label for="sections">Sections:</label>
+                <div formArrayName="sections">
+                  <div *ngFor="let section of sections.controls; let i = index">
+                    <div [formGroupName]="i">
+                      <h2>Section {{ i + 1 }}</h2>
+                      <label for="sectionName">Section Name:</label>
+                      <input type="text" formControlName="sectionName" id="sectionName">
+                      <br>
+                      <!-- Articles -->
+                      <h3>Articles</h3>
+                      <div *ngIf="getArticleControls(i).length > 0">
+                        <div formArrayName="articles">
+                          <div *ngFor="let article of getArticleControls(i); let j = index">
+                            <div [formGroupName]="j">
+                              <label for="articleTitle">Article Title:</label>
+                              <input type="text" formControlName="title" id="articleTitle">
+                              <br>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <!-- Videos -->
-                    <h3>Videos</h3>
-                    <button type="button" (click)="addVideo(i,'Video Title')">Add Video</button>
-                    <div *ngIf="getVideoControls(i).length > 0">
-                      <div formArrayName="videos">
-                        <div *ngFor="let video of getVideoControls(i); let j = index">
-                          <div [formGroupName]="j">
-                            <label for="videoTitle">Video Title:</label>
-                            <input type="text" formControlName="title" id="videoTitle">
-                            <br>
+                      <button type="button" (click)="addArticle(i, 'Article Title')">Add Article</button>
+                      <!-- Videos -->
+                      <h3>Videos</h3>
+                      <div *ngIf="getVideoControls(i).length > 0">
+                        <div formArrayName="videos">
+                          <div *ngFor="let video of getVideoControls(i); let j = index">
+                            <div [formGroupName]="j">
+                              <label for="videoTitle">Video Title:</label>
+                              <input type="text" formControlName="title" id="videoTitle">
+                              <br>
+                            </div>
                           </div>
                         </div>
                       </div>
+                      <button type="button" (click)="addVideo(i,'Video Title')">Add Video</button>
+                      <!-- Quizzes -->
+                      <h3>Quizzes</h3>
+                      <div *ngIf="getQuizControls(i).length > 0">
+                        <div formArrayName="quizzes">
+                          <div *ngFor="let quiz of getQuizControls(i); let j = index">
+                            <div [formGroupName]="j">
+                              <label for="quizTitle">Quiz Title:</label>
+                              <input type="text" formControlName="quizTitle" id="quizTitle">
+                              <br>
+                              <h4>Questions</h4>
+                              <div *ngIf="getQuestionControls(i, j).length > 0">
+                                <div formArrayName="questions">
+                                  <div *ngFor="let question of getQuestionControls(i, j); let k = index">
+                                    <div [formGroupName]="k">
+                                      <label for="questionText">Question Text:</label>
+                                      <input type="text" formControlName="questionText" id="questionText">
+                                      <br>
+                                      <label for="point">Point:</label>
+                                      <input type="number" formControlName="point" id="point">
+                                      <br>
+                                      <h5>Answers</h5>
+                                      <div formArrayName="answerDTOs">
+                                        <div *ngFor="let answer of getAnswerControls(i, j, k); let l = index">
+                                          <div [formGroupName]="l">
+                                            <label for="answerText">Answer Text:</label>
+                                            <input type="text" formControlName="answerText" id="answerText">
+                                            <input type="checkbox" formControlName="isCorrect"> Correct
+                                            <br>
+                                          </div>
+                                        </div>
+                                        <button type="button" (click)="addAnswer(i, j, k)">Add Answer</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <button type="button" (click)="addQuestion(i, j)">Add Question</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button type="button" (click)="addQuiz(i)">Add Quiz</button>
+                      <!-- End of Quizzes -->
                     </div>
-                    <!-- Quizzes -->
-                    <!-- Add quizzes fields here -->
                   </div>
                 </div>
+                <button type="button" (click)="addSection()">Add Section</button>
               </div>
               <button type="submit">Submit</button>
             </form>
           </div>
         </div>
       </div>
-    </div>
   </div>
 </div>
