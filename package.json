@@ -23,6 +23,7 @@
     "datatables.net-dt": "^1.11.3",
     "jquery": "^3.6.0",
     "ngx-pagination": "^6.0.3",
+    "ngx-quill": "^25.1.1",
     "ngx-toastr": "^18.0.0",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.10.5",

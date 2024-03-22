@@ -19,6 +19,8 @@ import { BlogService } from '../../blog-service.service';
 })
 
 export class HomeComponent {
+
+
   userInfo: any;
   coursesList: any;
   name: string = '';
@@ -84,6 +86,7 @@ blogs: any;
       });
       
   }
+  
   trackByIdx(index: number, item: any): number {
     return item.courseID;
   }

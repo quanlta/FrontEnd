@@ -12,6 +12,7 @@ import { CourseHomeComponent } from './course-home/course-home.component';
 import { WishlistComponent } from './client/user-info/wishlist/wishlist.component';
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { ListBlogComponent } from './list-blog/list-blog.component';
+import { CourseNotRegisterdComponent } from './course-not-registerd/course-not-registerd.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'userInfo', component: UserInfoComponent },
@@ -20,6 +21,8 @@ export const routes: Routes = [
   { path: 'course-home', component: CourseHomeComponent },
   { path: 'my-wishlist', component: WishlistComponent },
   { path: 'list-blogs', component: ListBlogComponent },
+
+  { path: 'course-notregistered', component: CourseNotRegisterdComponent },
 
   {
     path: 'courses/showSectionAndVideo/:id',

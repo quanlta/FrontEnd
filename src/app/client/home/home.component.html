@@ -34,9 +34,7 @@
                   aria-haspopup="true" aria-expanded="false">
                   <img style="    width: 30px;
                   height: 30px;
-                  border-radius: 15px;"
-                    src={{userInfo.image}}
-                    alt="">
+                  border-radius: 15px;" src={{userInfo.image}} alt="">
                   <span style="margin-left: 10px;">{{userInfo.fullname}}</span>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -379,9 +377,19 @@
                       </div>
                     </div>
                   </a>
+                  <div class="save-for-later-btn">
+                    <a class="btn btn-icon btn-outline-primary rounded-circle save-for-later-btn" href="#"
+                      data-toggle="tooltip" data-placement="top" title="Save for later" tabindex="0"
+                      data-original-title="Save for later">
+                      <i class="fas fa-heart"></i>
+                    </a>
+
+                  </div>
                 </div>
+
               </div>
             </div>
+
           </div>
         </ng-container>
       </div>
@@ -585,25 +593,26 @@ User
           <div class="line-dec"></div>
         </div>
       </div>
-      <div class="col-lg-6 show-up wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s"  *ngIf="blogs && blogs.length > 0">
+      <div class="col-lg-6 show-up wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s"
+        *ngIf="blogs && blogs.length > 0">
         <a style="margin-bottom: 20px;" [routerLink]="['blogs/', blogs[2].id]">
 
-        <div class="blog-post">
-          <div class="thumb">
-            <a href="#"><img [src]="blogs[0].imageUrl" alt=""></a>
+          <div class="blog-post">
+            <div class="thumb">
+              <a href="#"><img [src]="blogs[0].imageUrl" alt=""></a>
+            </div>
+            <div class="down-content">
+              <span class="category">{{ blogs[0]?.categoryName }}</span>
+              <span class="date">{{ blogs[0]?.createdDate }}</span>
+              <a href="#">
+                <h4>{{ blogs[0]?.title }}</h4>
+              </a>
+              <p>{{ blogs[0]?.description }}</p>
+              <span class="author"><img src="assets/images/author-post.jpg" alt="">By: Andrea Mentuzi</span>
+              <div class="border-first-button"><a href="#">Discover More</a></div>
+            </div>
           </div>
-          <div class="down-content">
-            <span class="category">{{ blogs[0]?.categoryName }}</span>
-            <span class="date">{{ blogs[0]?.createdDate }}</span>
-            <a href="#">
-              <h4>{{ blogs[0]?.title }}</h4>
-            </a>
-            <p>{{ blogs[0]?.description }}</p>
-            <span class="author"><img src="assets/images/author-post.jpg" alt="">By: Andrea Mentuzi</span>
-            <div class="border-first-button"><a href="#">Discover More</a></div>
-          </div>
-        </div>
-      </a>
+        </a>
 
       </div>
 
@@ -613,57 +622,57 @@ User
           <div class="row">
             <a style="margin-bottom: 20px;" [routerLink]="['blogs/', blogs[2].id]">
               <div class="col-lg-12" style="margin-bottom: 20px;">
-              <div class="post-item">
-                <div class="thumb">
-                  <a href="#"><img [src]="blogs[2]?.imageUrl" alt="" class="small-image"></a>
-                </div>
-                <div class="right-content">
-                  <span class="category">{{ blogs[1]?.categoryName }}</span>
+                <div class="post-item">
+                  <div class="thumb">
+                    <a href="#"><img [src]="blogs[2]?.imageUrl" alt="" class="small-image"></a>
+                  </div>
+                  <div class="right-content">
+                    <span class="category">{{ blogs[1]?.categoryName }}</span>
                     <span class="date">{{ blogs[1]?.createdDate }}</span>
-                  <a href="#">
-                    <h4>{{blogs[1].title}}</h4>
-                  </a>
-                  <p>{{blogs[1].description}}</p>
+                    <a href="#">
+                      <h4>{{blogs[1].title}}</h4>
+                    </a>
+                    <p>{{blogs[1].description}}</p>
+                  </div>
                 </div>
               </div>
-            </div>
             </a>
 
             <a style="margin-bottom: 20px;" [routerLink]="['blogs/', blogs[2].id]">
-            <div class="col-lg-12" style="margin-bottom: 20px;">
+              <div class="col-lg-12" style="margin-bottom: 20px;">
 
-              <div class="post-item">
-                <div class="thumb">
-                  <a href="#"><img [src]="blogs[2]?.imageUrl" alt="" class="small-image"></a>
-                </div>
-                <div class="right-content">
-                  <span class="category">{{ blogs[1]?.categoryName }}</span>
-                  <span class="date">{{ blogs[1]?.createdDate }}</span>
-                  <a href="#">
-                    <h4>{{blogs[1].title}}</h4>
-                  </a>
-                  <p>{{blogs[1].description}}</p>
+                <div class="post-item">
+                  <div class="thumb">
+                    <a href="#"><img [src]="blogs[2]?.imageUrl" alt="" class="small-image"></a>
+                  </div>
+                  <div class="right-content">
+                    <span class="category">{{ blogs[1]?.categoryName }}</span>
+                    <span class="date">{{ blogs[1]?.createdDate }}</span>
+                    <a href="#">
+                      <h4>{{blogs[1].title}}</h4>
+                    </a>
+                    <p>{{blogs[1].description}}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </a>
-          <a style="margin-bottom: 20px;" [routerLink]="['blogs/', blogs[2].id]">
-            <div class="col-lg-12">
+            </a>
+            <a style="margin-bottom: 20px;" [routerLink]="['blogs/', blogs[2].id]">
+              <div class="col-lg-12">
 
-              <div class="post-item last-post-item">
-                <div class="thumb">
-                  <a href="#"><img [src]="blogs[2]?.imageUrl" alt="" class="small-image"></a>
-                </div>
-                <div class="right-content">
-                  <span class="category">{{ blogs[1]?.categoryName }}</span>
-                  <span class="date">{{ blogs[1]?.createdDate }}</span>
-                  <a href="#">
-                    <h4>{{blogs[1].title}}</h4>
-                  </a>
-                  <p>{{blogs[1].description}}</p>
+                <div class="post-item last-post-item">
+                  <div class="thumb">
+                    <a href="#"><img [src]="blogs[2]?.imageUrl" alt="" class="small-image"></a>
+                  </div>
+                  <div class="right-content">
+                    <span class="category">{{ blogs[1]?.categoryName }}</span>
+                    <span class="date">{{ blogs[1]?.createdDate }}</span>
+                    <a href="#">
+                      <h4>{{blogs[1].title}}</h4>
+                    </a>
+                    <p>{{blogs[1].description}}</p>
+                  </div>
                 </div>
               </div>
-            </div>
             </a>
           </div>
         </div>
@@ -671,4 +680,3 @@ User
     </div>
   </div>
 </div>
-  

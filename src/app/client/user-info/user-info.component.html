@@ -71,6 +71,17 @@
                 <button class="btn btn-style-1 btn-primary" type="button" (click)="onUpdateUserInfo()">Update Profile</button>
             </div>
         </div>
+        <div class="col-md-6" style="margin-top: 12px;">
+            <div class="form-group">
+                <label for="account-email">My Wishlist</label>
+                <ul>
+                    <li *ngFor="let item of wishlistList">
+                        {{ item.courseTitle }} <!-- Assuming 'courseName' is a property of your WishlistItem -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+s        
     </form>
 </div>
 

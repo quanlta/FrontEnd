@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CourseDetail, Courses } from '../../models/auth.model'; // Kiểm tra xem liệu này có phải là 'Courses' hay 'ResponeCourseDTO' không?
 import { ResponeCourseDTO } from '../../models/auth.model'; // Thay đổi đường dẫn đến ResponeCourseDTO nếu cần thiết
-
+import { Comment } from '../../models/auth.model';
 const baseUrl = 'http://localhost:8084/';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -65,5 +65,8 @@ export class CoursesService {
   }
   getCourseDetail(courseId: number): Observable<CourseDetail> {
     return this.http.post<any>(`${this.apiUrl}/showSectionAndVideo/${courseId}`, {});
+  }
+  getCommentsForCourse(courseId: number): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`${this.apiUrl}/${courseId}/comments`);
   }
 }

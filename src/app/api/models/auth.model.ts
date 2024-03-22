@@ -57,6 +57,57 @@ export class CourseDetail {
     public sections?: Section[]
   ) {}
 }
+// comment.model.ts
+export class Comment {
+  userName: string;
+  commentText: string;
+  userImage: string;
+
+  constructor(userName: string, commentText: string, userImage: string) {
+    this.userName = userName;
+    this.commentText = commentText;
+    this.userImage = userImage;
+  }
+}
+export class CommentDTO {
+    public courseId: number;
+    public commentText: string;
+    public userId: number;
+
+
+    constructor(courseId: number, commentText: string, userId: number) {
+      this.courseId = courseId;
+      this.commentText = commentText;
+      this.userId = userId;
+    }
+
+}
+export class WishlistItem {
+  public courseId: number; // Assuming each wishlist item is associated with a course ID
+  public userId: number; // Assuming each wishlist item is associated with a user ID
+
+   constructor(id: number, courseId: number, userId: number) {
+    this.courseId = courseId;
+    this.userId = userId;
+  }
+}
+
+export class WishlistItemDTO {
+  public courseId: number;
+  public userId: number;
+  public courseTitle: string;
+  public courseCategory: string;
+  public courseImage: string;
+
+  constructor(courseId: number, userId: number, courseTitle: string, courseCategory: string, courseImage: string) {
+    this.courseId = courseId;
+    this.userId = userId;
+    this.courseTitle = courseTitle;
+    this.courseCategory = courseCategory;
+    this.courseImage = courseImage;
+  }
+}
+
 
 export class Section {
   constructor(
