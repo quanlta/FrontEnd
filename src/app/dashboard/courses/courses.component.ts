@@ -245,7 +245,7 @@ export class CoursesComponent {
         console.log("ArticleFiles:", articleFiles);
         console.log("Success:", response);
         window.alert('Course Added successfully.');
-        window.location.reload;
+        window.location.reload();
 
       },
       error => {
@@ -315,7 +315,7 @@ export class CoursesComponent {
         () => {
           console.log('Course deleted successfully.');
           window.alert('Course deleted successfully.');
-          window.location.reload;
+          window.location.reload();
         },
         error => {
           console.error('Error deleting course:', error);

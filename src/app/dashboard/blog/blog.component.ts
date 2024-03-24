@@ -84,7 +84,7 @@ export class BlogComponent {
         console.log("Image:", image);
         console.log("Success:", response);
         window.alert('Blog Added successfully.');
-        window.location.reload;
+        window.location.reload();
       },
       error => {
         console.log("Error:", error);
@@ -146,7 +146,7 @@ export class BlogComponent {
         // For example, reload the list of blogs
         // this.loadBlogs();
         window.alert('Blog deleted successfully.');
-        window.location.reload() 
+        window.location.reload();
       },
       error => {
         console.error('Error deleting blog:', error);
