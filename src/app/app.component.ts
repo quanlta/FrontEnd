@@ -70,8 +70,9 @@ export class AppComponent {
   logout() {
     localStorage.removeItem('user');
     this.userInfo = null;
-    window.location.reload();
+    window.location.href = '/'; // Redirect to the login page
   }
+  
   onSignup() {
     this.authService
       .register(this.name, this.password, this.email, this.facebook)

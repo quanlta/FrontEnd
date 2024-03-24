@@ -1,3 +1,4 @@
+
 import { Component, EventEmitter } from '@angular/core';
 import {
   Router,
@@ -5,20 +6,20 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { AuthService } from '../../api/services/auth/auth.service';
-import { CoursesService } from '../../api/services/courses/courses.service';
+import { CommonModule } from '@angular/common'; 
+import { AuthService } from '../api/services/auth/auth.service'; 
+import { CoursesService } from '../api/services/courses/courses.service';
 
-import { BlogService } from '../../blog-service.service';
+import { BlogService } from '../blog-service.service';
 @Component({
-  selector: 'app-home',
+  selector: 'app-home-user',
   standalone: true,
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  templateUrl: './home-user.component.html',
+  styleUrl: './home-user.component.css'
 })
 
-export class HomeComponent {
+export class HomeUserComponent {
 
 
   userInfo: any;
@@ -190,9 +191,9 @@ blogs: any;
         if (accessTokenPayload.role.includes('Admin')) {
           this.router.navigate(['/admin/courses']);
         } else {
-          this.router.navigate(['/home']);
+          window.location.reload();
+
         }
-        
       },
       (error) => {
         // Handle login error

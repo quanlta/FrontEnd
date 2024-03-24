@@ -23,17 +23,17 @@
           style="display: flex; justify-content: flex-start; flex-wrap: wrap; margin-left: 150px; margin-right: 100px;">
           <div *ngFor="let blog of pagedBlogs; trackBy: trackByIdx" class="item col-lg-4" style="margin-top: 20px;">
             <!-- Your course item HTML goes here -->
-            <a [routerLink]="['blogs/', blog.id]" style="width: 287px; height: 368px; display: block;">
+            <a [routerLink]="['blogs/', blog?.id]" style="width: 287px; height: 368px; display: block;">
               <div class="portfolio-item" style="width: 287px; height: 368px;">
                 <div style="padding: 10px;" class="thumb">
-                  <img [src]="blog.image || 'default-image-url'" alt=""
+                  <img [src]="blog.imageUrl || 'default-image-url'" alt=""
                     style="width: 270px; height: 151px; object-fit: cover; border-radius: 2px;">
                 </div>
                 <div class="down-content"
                   style="display: flex; text-align: left; padding: 5px 10px !important; justify-content: flex-start; flex-direction: column;">
-                  <p style="text-align: left;">{{ blog.level }}</p>
-                  <h4>{{ blog.courseTitle }}</h4>
-                  <p>{{blog.courseDesY}}</p>
+                  <p style="text-align: left;">{{ blog?.level }}</p>
+                  <h4>{{ blog.title }}</h4>
+                  <p>{{blog.description}}</p>
                   <div style="display: flex; justify-content: flex-start; align-items: center;">
                     <p style="margin-right: 5px; color: #40ff00;">{{ blog.ratings }}</p>
                     <span style="margin-right: 5px; display: flex;">
@@ -47,7 +47,7 @@
                       <div><img style="width: 50px;" width="50px"
                           src="https://img.freepik.com/premium-vector/user-profile-icon-flat-style-member-avatar-vector-illustration-isolated-background-human-permission-sign-business-concept_157943-15752.jpg?size=338&ext=jpg&ga=GA1.1.2113030492.1708819200&semt=ais"
                           alt=""></div>
-                      <div style="color: black;">Jane Cooper</div>
+                      <div style="color: black;">{{blog.categoryName}}</div>
                     </div>
                     <div style="color: #40ff00; font-weight: bold; font-size: 20px;">{{ blog.coursePrice |
                       currency:'VND':'symbol':'1.0-0' }}</div>

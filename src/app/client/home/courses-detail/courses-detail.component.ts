@@ -10,86 +10,6 @@ import { WishlistService } from '../../../wishlist.service';
 // Define the Comment interface
 import { FormsModule } from '@angular/forms';
 import { CommentDTO } from '../../../api/models/auth.model';
-interface Comment {
-  userId: number; // Assuming userId is of type number
-  courseId: number; // Assuming courseId is of type number
-  commentText: string;
-  // Other properties of Comment interface
-}
-interface Course {
-  courseId: number;
-  courseTitle: string;
-  courseDescription: string;
-  coursePrice: number;
-  category: string | null;
-  isPassed: boolean;
-  courseDate: string;
-  ratings: number | null;
-  level: string;
-  tag: string;
-  userId: number | null;
-  learningDetail: LearningDetail;
-  image: string | null;
-  videoTrial: string | null;
-  status: number;
-  sections: Section[];
-  avgRating: number;
-  countRating: number;
-  categoryName: string;
-}
-
-interface LearningDetail {
-  benefit: string;
-  objective: string;
-}
-
-interface Section {
-  sectionId: number;
-  sectionName: string;
-  course: any; // It might be better to define a Course reference type here
-  articles: Article[];
-  videos: Video[];
-  quizzes: Quiz[];
-}
-
-interface Article {
-  articleId: number;
-  title: string;
-  articleUrl: string;
-}
-
-interface Video {
-  videoId: number;
-  title: string;
-  description: string;
-  videoData: string;
-  isTrial: boolean;
-}
-
-interface Quiz {
-  quizId: number;
-  title: string;
-  questions: Question[];
-}
-export interface WishlistItem {
-  courseId: number; // Assuming each wishlist item is associated with a course ID
-  userId: number; // Assuming each wishlist item is associated with a user ID
-  // Add other properties as needed
-}
-
-interface Question {
-  questionId: number;
-  text: string;
-  point: number;
-  answers: Answer[];
-}
-
-interface Answer {
-  answerId: number;
-  text: string;
-  isCorrect: boolean;
-}
-
 @Component({
   selector: 'app-courses-detail',
   templateUrl: './courses-detail.component.html',
@@ -97,6 +17,7 @@ interface Answer {
   imports: [CommonModule, FormsModule],
   standalone: true
 })
+
 export class CoursesDetailComponent implements OnInit {
   selectedVideo: any;
   safeUrl: SafeResourceUrl | null = null;
@@ -131,6 +52,8 @@ export class CoursesDetailComponent implements OnInit {
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
     this.selectedVideo = video;
   }
+
+  
   onSubmit(): void {
     
     console.log("userID", this.userInfo.id);
@@ -354,3 +277,85 @@ export class CoursesDetailComponent implements OnInit {
   }
 
 }
+
+export interface WishlistItem {
+  courseId: number; // Assuming each wishlist item is associated with a course ID
+  userId: number; // Assuming each wishlist item is associated with a user ID
+  // Add other properties as needed
+}
+
+interface Comment {
+  userId: number; // Assuming userId is of type number
+  courseId: number; // Assuming courseId is of type number
+  commentText: string;
+  // Other properties of Comment interface
+}
+interface Course {
+  courseId: number;
+  courseTitle: string;
+  courseDescription: string;
+  coursePrice: number;
+  category: string | null;
+  isPassed: boolean;
+  courseDate: string;
+  ratings: number | null;
+  level: string;
+  tag: string;
+  userId: number | null;
+  learningDetail: LearningDetail;
+  image: string | null;
+  videoTrial: string | null;
+  status: number;
+  sections: Section[];
+  avgRating: number;
+  countRating: number;
+  categoryName: string;
+}
+
+interface LearningDetail {
+  benefit: string;
+  objective: string;
+}
+
+interface Section {
+  sectionId: number;
+  sectionName: string;
+  course: any; // It might be better to define a Course reference type here
+  articles: Article[];
+  videos: Video[];
+  quizzes: Quiz[];
+}
+
+interface Article {
+  articleId: number;
+  title: string;
+  articleUrl: string;
+}
+
+interface Video {
+  videoId: number;
+  title: string;
+  description: string;
+  videoData: string;
+  isTrial: boolean;
+}
+
+interface Quiz {
+  quizId: number;
+  title: string;
+  questions: Question[];
+}
+
+interface Question {
+  questionId: number;
+  text: string;
+  point: number;
+  answers: Answer[];
+}
+
+interface Answer {
+  answerId: number;
+  text: string;
+  isCorrect: boolean;
+}
+

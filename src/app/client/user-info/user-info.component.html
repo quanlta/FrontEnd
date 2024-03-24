@@ -50,7 +50,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="account-fn">Full Name</label>
-                <input (change)="handleUpdateInfo('fullname',$event)" class="form-control" type="text"value={{userInfo.fullname}} id="account-fn" required>
+                <input (change)="handleUpdateInfo('fullname',$event)" class="form-control" type="text"value={{userInfo?.fullname}} id="account-fn" required>
             </div>
         </div>
         <div class="col-md-6">

@@ -7,6 +7,7 @@ import { WishlistService } from '../../wishlist.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WishlistItemDTO } from '../../api/models/auth.model';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
@@ -16,6 +17,7 @@ import { WishlistItemDTO } from '../../api/models/auth.model';
   styleUrls: ['./user-info.component.css']
 })
 export class UserInfoComponent implements OnInit {
+  userId:any;
   userInfo: any;
   fullname: any;
   age: any;
@@ -26,7 +28,7 @@ export class UserInfoComponent implements OnInit {
   facebook: any;
 imageselectedFile: File | undefined;
 wishlistList: any;
-constructor(private wishlistService: WishlistService, private router: Router, private authService: AuthService, private http: HttpClient) { }
+constructor(private wishlistService: WishlistService, private router: Router, private authService: AuthService, private http: HttpClient, private route: ActivatedRoute) { }
 
  
   getUserInfo() {
@@ -137,13 +139,12 @@ constructor(private wishlistService: WishlistService, private router: Router, pr
   ngOnInit() {
     this.getUserInfo();
 
-    this.getWishlists();
+    
     
   }
   getWishlists(): void {
-
-    const userId = this.userInfo.id;
-    this.wishlistService.getAllWishlistItems(userId).subscribe(
+    
+    this.wishlistService.getAllWishlistItems(this.userId).subscribe(
       (wishlists: WishlistItemDTO[]) => {
         this.wishlistList = wishlists;
       },

@@ -926,17 +926,19 @@
                 <div class="tutor-col-auto">
                   <div class="tutor-course-details-actions tutor-mt-12 tutor-mt-sm-0">
 
-                    <button *ngIf="!isInWishlist" class="tutor-btn tutor-btn-ghost tutor-course-wishlist-btn tutor-mr-16" (click)="addToWishlist()">
+                    <button *ngIf="!isInWishlist"
+                      class="tutor-btn tutor-btn-ghost tutor-course-wishlist-btn tutor-mr-16" (click)="addToWishlist()">
                       <i class="tutor-icon-bookmark-line tutor-mr-8"></i> Add to Wishlist
                     </button>
-                    
-                    <button *ngIf="isInWishlist" class="tutor-btn tutor-btn-ghost tutor-course-wishlist-btn tutor-mr-16" (click)="removeFromWishlist()">
+
+                    <button *ngIf="isInWishlist" class="tutor-btn tutor-btn-ghost tutor-course-wishlist-btn tutor-mr-16"
+                      (click)="removeFromWishlist()">
                       <i class="tutor-icon-bookmark-line tutor-mr-8"></i> Remove from Wishlist
                     </button>
-                    
-                    
-                    
-                 
+
+
+
+
 
 
                     <a data-tutor-modal-target="tutor-course-share-opener" href="#"
@@ -991,9 +993,17 @@
 
               <div class="tutor-video-player">
                 <div class="loading-spinner" area-hidden="true"></div>
-                <div *ngIf="selectedVideo" class="tutor-ratio tutor-ratio-16x9">
-                  <iframe [src]="safeUrl" frameborder="0" allowfullscreen allowtransparency allow="autoplay"></iframe>
+                <div class="video-container">
+                  <div *ngIf="!selectedVideo" class="placeholder-frame">
+                    <!-- Placeholder content when no video is selected -->
+                    <p>No video selected</p>
+                  </div>
+                  <div *ngIf="selectedVideo" class="tutor-ratio tutor-ratio-16x9">
+                    <!-- Display the video iframe when a video is selected -->
+                    <iframe [src]="safeUrl" frameborder="0" allowfullscreen allowtransparency allow="autoplay"></iframe>
+                  </div>
                 </div>
+
               </div>
 
 
@@ -1005,7 +1015,7 @@
                       <a class="tutor-nav-link is-active" href="#"
                         data-tutor-nav-target="tutor-course-details-tab-info">Course Info</a>
                     </li>
-                 
+
                     <li class="tutor-nav-item tutor-nav-more tutor-d-none">
                       <a class="tutor-nav-link tutor-nav-more-item" href="#"><span class="tutor-mr-4">More</span> <span
                           class="tutor-nav-more-icon tutor-icon-times"></span></a>
@@ -1015,17 +1025,20 @@
                 </div>
                 <div class="tutor-tab tutor-pt-24">
                   <div id="tutor-course-details-tab-info" class="tutor-tab-item is-active">
-                    <div class="tutor-course-details-content tutor-toggle-more-content tutor-toggle-more-collapsed"
-                    data-tutor-toggle-more-content data-toggle-height="200" style="height: 200px;">
-                 <h2 class="tutor-fs-5 tutor-fw-bold tutor-color-black tutor-mb-12">
-                   About Course
-                 </h2>
-                 <span>{{ courseDetail?.courseDescription }}</span>
-               </div>
-               
+                    <div class=""
+                      data-tutor-toggle-more-content data-toggle-height="200" style="height: 200px;">
+                      <h2 class="tutor-fs-5 tutor-fw-bold tutor-color-black tutor-mb-12">
+                        About Course
+                      </h2>
+                      <span>{{ courseDetail?.courseDescription }}</span>
+                    </div>
 
-                    <div class="tutor-course-details-widget tutor-course-details-widget-col-2 tutor-mt-lg-50 tutor-mt-32" style="font-family: Open Sans; display: flex;">
-                      <h3 class="tutor-course-details-widget-title tutor-fs-5 tutor-fw-bold tutor-color-black tutor-mb-16">
+
+                    <div
+                      class="tutor-course-details-widget tutor-course-details-widget-col-2 tutor-mt-lg-50 tutor-mt-32"
+                      style="font-family: Open Sans; display: flex;">
+                      <h3
+                        class="tutor-course-details-widget-title tutor-fs-5 tutor-fw-bold tutor-color-black tutor-mb-16">
                         What Will You Learn?
                       </h3>
                       <div class="tutor-d-flex tutor-mb-12">
@@ -1042,7 +1055,7 @@
                       </div>
                       <!-- Additional objectives and benefits can be included similarly -->
                     </div>
-                    
+
 
                     <div class="tutor-mt-40">
                     </div>
@@ -1316,11 +1329,12 @@
                             </a>
                             <div class="media-body">
                               <span class="text-muted pull-right">
-                                <small class="text-muted">{{ comment.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</small>
+                                <small class="text-muted">{{ comment.createdDate | date: 'dd/MM/yyyy HH:mm:ss'
+                                  }}</small>
                               </span>
-                              
-                              
-                              
+
+
+
                               <strong class="text-success">{{ comment.userName }}</strong>
                               <p>{{ comment.commentText }}</p>
                             </div>
@@ -1334,37 +1348,45 @@
             </main>
 
             <aside class="tutor-col-xl-4">
-              <div class="tutor-single-course-sidebar tutor-mt-40 tutor-mt-xl-0" style="background-color: rgb(252, 252, 253);">
+              <div class="tutor-single-course-sidebar tutor-mt-40 tutor-mt-xl-0"
+                style="background-color: rgb(252, 252, 253);">
 
-                <div class="tutor-card tutor-card-md tutor-sidebar-card" style="background-color: rgb(252, 252, 253);" >
-                  <div class="wp-block-qubely-advancedlist qubely-block-63f40b" *ngIf="courseDetail" >
+                <div class="tutor-card tutor-card-md tutor-sidebar-card" style="background-color: rgb(252, 252, 253);">
+                  <div class="wp-block-qubely-advancedlist qubely-block-63f40b" *ngIf="courseDetail">
                     <div class="qubely-block-advanced-list qubely-alignment-left">
-                      <ul class="qubely-list qubely-list-type-unordered qubely-list-bullet-check-circle-outline">
-                        <li *ngFor="let section of courseDetail.sections; let i = index">
-                          <!-- Display section number and name -->
-                          <strong>{{ i + 1 }}. {{ section.sectionName }}</strong>
-                          <ul>
-                
-                            <ng-container *ngFor="let item of section.articles">
-                              <li class="article-item" style="background-color: none;">
-                                <!-- Display article link -->
-                                <a [href]="item.articleUrl" target="_blank">Article: {{ item.title }}</a>
-                              </li>
-                            </ng-container>
-                
-                            <ng-container *ngFor="let item of section.videos">
-                              <li class="video-item" (click)="selectVideo(item)">
-                                <!-- Display video title -->
-                                <a>Video: {{ item.title }}</a>
-                              </li>
-                            </ng-container>
-                
-                          </ul>
-                        </li>
-                      </ul>
+                      <ng-container *ngIf="">
+                        <ul class="qubely-list qubely-list-type-unordered qubely-list-bullet-check-circle-outline">
+                          <h3
+                            class="tutor-course-details-widget-title tutor-fs-5 tutor-color-black tutor-fw-bold tutor-mb-16">
+                            Content of lessons
+                          </h3>
+                          <li *ngFor="let section of courseDetail.sections; let i = index">
+                            <!-- Display section number and name -->
+                            <strong>{{ i + 1 }}. {{ section.sectionName }}</strong>
+                            <ul>
+
+                              <ng-container *ngFor="let item of section.articles">
+                                <li class="article-item" style="background-color: none;">
+                                  <!-- Display article link -->
+                                  <a [href]="item.articleUrl" target="_blank">Article: {{ item.title }}</a>
+                                </li>
+                              </ng-container>
+
+                              <ng-container *ngFor="let item of section.videos">
+                                <li class="video-item" (click)="selectVideo(item)">
+                                  <!-- Display video title -->
+                                  <a>Video: {{ item.title }}</a>
+                                </li>
+                              </ng-container>
+
+                            </ul>
+                          </li>
+                        </ul>
+                      </ng-container>
+
                     </div>
                   </div>
-                  
+
 
 
                   <!-- Course Info -->
@@ -1381,10 +1403,10 @@
                       <li class="tutor-d-flex tutor-mt-12">
                         <span class="tutor-icon-refresh-o tutor-color-black tutor-mt-4 tutor-mr-12"
                           aria-labelledby="Last Updated"></span>
-                          <span class="tutor-fs-6 tutor-color-secondary">Created At: 
-                            {{ courseDetail?.courseDate | date: 'dd/MM/yyyy' }}
-                          </span>
-                          
+                        <span class="tutor-fs-6 tutor-color-secondary">Created At:
+                          {{ courseDetail?.courseDate | date: 'dd/MM/yyyy' }}
+                        </span>
+
                       </li>
                     </ul>
                   </div>
@@ -1473,57 +1495,8 @@
 
                     </div>
                   </div>
-                  <div class="tutor-course-details-widget">
-                    <h3
-                      class="tutor-course-details-widget-title tutor-fs-5 tutor-color-black tutor-fw-bold tutor-mb-16">
-                      Material Includes </h3>
-                    <ul class="tutor-course-details-widget-list tutor-fs-6 tutor-color-black">
-                      <li class="tutor-d-flex tutor-mb-12">
-                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
-                          area-hidden="true"></span>
-                        <span>4 hours on-demand video</span>
-                      </li>
-                      <li class="tutor-d-flex tutor-mb-12">
-                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
-                          area-hidden="true"></span>
-                        <span>4 articles</span>
-                      </li>
-                      <li class="tutor-d-flex tutor-mb-12">
-                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
-                          area-hidden="true"></span>
-                        <span>3 downloadable resources</span>
-                      </li>
-                      <li class="tutor-d-flex tutor-mb-12">
-                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
-                          area-hidden="true"></span>
-                        <span>Full lifetime access</span>
-                      </li>
-                      <li class="tutor-d-flex tutor-mb-12">
-                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
-                          area-hidden="true"></span>
-                        <span>Access on mobile and TV</span>
-                      </li>
-                      <li class="tutor-d-flex tutor-mb-12">
-                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
-                          area-hidden="true"></span>
-                        <span>Certificate of Completion</span>
-                      </li>
-                    </ul>
-                  </div>
 
-                  <div class="tutor-course-details-widget">
-                    <h3
-                      class="tutor-course-details-widget-title tutor-fs-5 tutor-color-black tutor-fw-bold tutor-mb-16">
-                      Requirements </h3>
-                    <ul class="tutor-course-details-widget-list tutor-fs-6 tutor-color-black">
-                      <li class="tutor-d-flex tutor-mb-12"><span
-                          class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
-                          area-hidden="true"></span><span>No prior health knowledge is required or assumed</span></li>
-                      <li class="tutor-d-flex tutor-mb-12"><span
-                          class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
-                          area-hidden="true"></span><span>A digital food scale will help but is not required</span></li>
-                    </ul>
-                  </div>
+
 
 
                   <div class="tutor-course-details-widget">
@@ -1538,24 +1511,6 @@
                             Fitness </a></li>
                       </ul>
                     </div>
-                  </div>
-
-                  <div class="tutor-course-details-widget">
-                    <h3
-                      class="tutor-course-details-widget-title tutor-fs-5 tutor-color-black tutor-fw-bold tutor-mb-16">
-                      Audience </h3>
-                    <ul class="tutor-course-details-widget-list tutor-fs-6 tutor-color-black">
-                      <li class="tutor-d-flex tutor-mb-12">
-                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
-                          area-hidden="true"></span>
-                        <span>Anyone wanting to learn the truth about dieting &amp; meal planning</span>
-                      </li>
-                      <li class="tutor-d-flex tutor-mb-12">
-                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
-                          area-hidden="true"></span>
-                        <span>Anyone with an open mind towards dieting</span>
-                      </li>
-                    </ul>
                   </div>
 
                 </div>

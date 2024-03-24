@@ -2,6 +2,26 @@
     display: flex;
     flex: 1 0 auto;
   }
+  .video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* Tỉ lệ màn hình 16:9 */
+    overflow: hidden;
+    background-color: #f0f0f0; /* Màu nền của khung trống */
+}
+
+.placeholder-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0; /* Màu nền của khung trống */
+}
+
   
   .review > div[class*="col-"] {
     display: block;
