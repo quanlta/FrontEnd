@@ -45,8 +45,8 @@ import {
   ɵɵtextInterpolate1,
   ɵɵtextInterpolate2
 } from "./chunk-QHIF2FQR.js";
-import "./chunk-V2DXGMIT.js";
 import "./chunk-UKEHM6V6.js";
+import "./chunk-V2DXGMIT.js";
 import "./chunk-ZDOIMVJD.js";
 
 // node_modules/ngx-pagination/fesm2020/ngx-pagination.mjs

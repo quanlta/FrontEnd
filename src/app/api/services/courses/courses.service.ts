@@ -47,7 +47,7 @@ export class CoursesService {
   findByTitle(title: any): Observable<Courses[]> {
     return this.http.get<Courses[]>(`${this.apiUrl}?title=${title}`); // Sử dụng biến apiUrl thay vì baseUrl
   }
-  
+
   getAllCourses(): Observable<ResponeCourseDTO[]> {
     return this.http.get<ResponeCourseDTO[]>(this.apiUrl);
   }
@@ -69,4 +69,9 @@ export class CoursesService {
   getCommentsForCourse(courseId: number): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${this.apiUrl}/${courseId}/comments`);
   }
+
+  deleteCourse(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}?id=${id}`);
+  }
+
 }

@@ -13,13 +13,15 @@ import { WishlistComponent } from './client/user-info/wishlist/wishlist.componen
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { ListBlogComponent } from './list-blog/list-blog.component';
 import { CourseNotRegisterdComponent } from './course-not-registerd/course-not-registerd.component';
+import { AdminGuard } from './admin.guard';
+import { AuthGuard } from './user-.guard';
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent},
   { path: 'userInfo', component: UserInfoComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'cart', component: CartComponent },
   { path: 'course-home', component: CourseHomeComponent },
-  { path: 'my-wishlist', component: WishlistComponent },
+  { path: 'my-wishlist', component: WishlistComponent},
   { path: 'list-blogs', component: ListBlogComponent },
 
   { path: 'course-notregistered', component: CourseNotRegisterdComponent },
@@ -27,27 +29,32 @@ export const routes: Routes = [
   {
     path: 'courses/showSectionAndVideo/:id',
     component: CoursesDetailComponent,
-    title: 'courses details',
+    title: 'courses details', 
   },  {
     path: 'course-home/courses/showSectionAndVideo/:id',
     component: CoursesDetailComponent,
-    title: 'courses details',
+    title: 'courses details'
   },
   {
     path: 'blogs/:id',
     component: BlogDetailComponent,
+    title: 'blogs details'
+  }, {
+    path: 'list-blogs/blogs/:id',
+    component: BlogDetailComponent,
     title: 'blogs details',
   },
+
 
   
   {
     path: 'admin',
     component: DashboardComponent,
     children: [
-      { path: 'user', component: UserComponent },
-      { path: 'courses', component: CoursesComponent },
-      { path: 'blog', component: BlogComponent },
-      { path: 'income', component: IncomeComponent },
+      { path: 'user', component: UserComponent, },
+      { path: 'courses', component: CoursesComponent , },
+      { path: 'blog', component: BlogComponent,  },
+      { path: 'income', component: IncomeComponent , },
     ],
   },
 ];

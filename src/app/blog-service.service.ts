@@ -41,4 +41,7 @@ export class BlogService {
   findByTitle(title: any): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}?title=${title}`);
   }
+  deleteBlog(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
 }

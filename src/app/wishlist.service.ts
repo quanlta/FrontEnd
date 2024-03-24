@@ -20,10 +20,7 @@ deleteFromWishlist(courseId: number, userId: number): Observable<void> {
 }
 
 checkIfInWishlist(courseId: number, userId: number): Observable<boolean> {
-  // Construct the URL with courseId and userId
   const url = `http://localhost:8084/wishlist/check/${courseId}/${userId}`;
-  
-  // Make a GET request to check if the course is in the wishlist
   return this.http.get<boolean>(url);
 }
   // Add additional methods for retrieving, updating, and deleting wishlist items

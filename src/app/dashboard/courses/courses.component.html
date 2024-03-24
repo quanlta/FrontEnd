@@ -1,4 +1,4 @@
-<div class="container" style="height: 100vh;">
+<div class="container" style="height: 100%;">
   <div class="container-xl">
     <div class="tab-titles">
       <p [class.active-link]="activeTab === 'tab1'" class="tab-links active-link" (click)="openTab('tab1')">Courses</p>
@@ -10,7 +10,7 @@
           <div class="table-title">
             <div class="row">
               <div class="col-sm-6">
-                <h4><b>Manage User</b></h4>
+                <h4><b>Manage Course</b></h4>
               </div>
 
             </div>
@@ -20,39 +20,40 @@
               <tr class="center-align">
                 <th>Name</th>
                 <th>image</th>
-                <th>price</th>
-                <th>type</th>
-                <th>rate</th>
+                <!-- <th>price</th> -->
+                <th>Category</th>
                 <th>created at</th>
                 <th>Actions</th>
 
               </tr>
             </thead>
             <tbody>
-              @for (courses of filteredCourses; track courses.id; let i = $index) {
-              <tr>
-                <td>{{ courses.courseTitle }}</td>
-                <td><img src="{{ courses.image }}" style="width: 100px; height: auto;" /></td>
-                <td>{{ courses.coursePrice }}</td>
-                <td>{{ courses.categoryName }}</td>
-                <td>{{ courses.created_at }}</td>
-
-                <td>{{ courses.courseDate }}</td>
-                <td>
-                  <a class="btn"><i class='fas fa-eye view'></i></a>
-                  <a class="btn"><i class="fa fa-edit edit"></i></a>
-                  <button type="button" class="btn"><i class='fas fa-trash-alt delete'></i></button>
-                </td>
-              </tr>
-              }
+              <tbody>
+                <tr *ngFor="let course of coursesList">
+                  <td>{{ course.courseTitle }}</td>
+                  <td><img src="{{ course.image }}" style="width: 100px; height: auto;" /></td>
+                  <td>{{ course.categoryName }}</td>
+                  <td>{{ course.courseDate | date: 'dd/MM/yyyy' }}</td>
+                  <td>
+                    <a class="btn"><i class='fas fa-eye view'></i></a>
+                    <a class="btn"><i class="fa fa-edit edit"></i></a>
+                    <button type="button" class="btn" (click)="deleteCourse(296)"><i class='fas fa-trash-alt delete'></i></button>
+                  </td>
+                </tr>
+              </tbody>
+              
               <div class="pagination">
                 <pagination-controls [(ngModel)]="currentPage" (pageChange)="pageChanged($event)"></pagination-controls>
               </div>
-            </tbody>
+              
           </table>
         </div>
       </div>
     </div>
+
+
+
+
     <div class="tab-contents" id="tab2">
       <div class="table">
         <div class="table-wrapper">
@@ -68,22 +69,21 @@
           <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
             <label for="articleFiles">Article Files:</label>
             <input type="file" id="articleFiles" name="articleFiles" multiple
-                (change)="onFileSelected($event, 'articleFiles')">
+              (change)="onFileSelected($event, 'articleFiles')">
             <br>
-        
+
             <label for="videoFiles">Video Files:</label>
             <input type="file" id="videoFiles" name="videoFiles" multiple
-                (change)="onFileSelected($event, 'videoFiles')">
+              (change)="onFileSelected($event, 'videoFiles')">
             <br>
-        
+
             <label for="videoTrial">Video Trial:</label>
             <input type="file" id="videoTrial" name="videoTrial" multiple
-                (change)="onFileSelected1($event, 'videoTrial')">
+              (change)="onFileSelected1($event, 'videoTrial')">
             <br>
-        
+
             <label for="imageFile">Image File:</label>
-            <input type="file" id="imageFile" name="imageFile" multiple
-                (change)="onFileSelected1($event, 'imageFile')">
+            <input type="file" id="imageFile" name="imageFile" multiple (change)="onFileSelected1($event, 'imageFile')">
             <br>
 
             <div formGroupName="courseDTO">

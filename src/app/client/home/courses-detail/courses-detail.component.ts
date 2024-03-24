@@ -202,7 +202,7 @@ export class CoursesDetailComponent implements OnInit {
     let url = this.currentURL;
     let storedCardItem: any = localStorage.getItem('cardItem');
     this.cardItem = JSON.parse(storedCardItem);
-    this.checkIfInWishlist(); // Update isInWishlist based on the persisted state
+    this.checkIfInWishlist(this.courseId, this.userId);
 
     const storedIsInWishlist = localStorage.getItem('isInWishlist');
     if (storedIsInWishlist !== null) {
@@ -307,50 +307,44 @@ export class CoursesDetailComponent implements OnInit {
     };
   
     // Call the addToWishlist method from the wishlist service
-    this.wishlistService.addToWishlist(wishlistItem).subscribe(
-      (response) => {
-        console.log('Course added to wishlist:', response);
-        // Optionally, you can perform additional actions here
-        this.isInWishlist = true;
-        localStorage.setItem('isInWishlist', 'true'); // Save the state in localStorage
-      },
-      (error) => {
-        console.error('Error adding course to wishlist:', error);
-        // Optionally, you can handle the error here
-      }
-    );
+    this.wishlistService.addToWishlist(wishlistItem)
+    .subscribe(() => {
+      // Update isInWishlist to true after successfully adding to wishlist
+      this.isInWishlist = true;
+    }, error => {
+      console.error('Error adding to wishlist:', error);
+      // Handle error appropriately, e.g., display error message
+    });
   }
-  
-  removeFromWishlist(): void {
-    const courseId = this.courseId;
-    const userId = this.userInfo.id;
-  
-    this.wishlistService.deleteFromWishlist(courseId, userId).subscribe(
-      () => {
-        // Optionally, you can perform additional actions after successful removal
-        console.log('Course removed from wishlist');
+  checkIfInWishlist(courseId: number, userId: number): void {
+    this.wishlistService.checkIfInWishlist(courseId, userId)
+      .subscribe((isInWishlist: boolean) => {
+        if (isInWishlist) {
+          console.log('Course is in the wishlist');
+          // Do something if the course is in the wishlist
+          isInWishlist = true;
+        } else {
+          console.log('Course is not in the wishlist');
+          // Do something if the course is not in the wishlist
+          isInWishlist = false;
+        }
+      }, error => {
+        console.error('Error checking wishlist:', error);
+        // Handle error appropriately, e.g., display error message
+      });
+  }  
+  removeFromWishlist(courseId: number, userId: number): void {
+    // Call the WishlistService to remove course from wishlist
+    this.wishlistService.deleteFromWishlist(courseId, userId)
+      .subscribe(() => {
+        // Update isInWishlist to false after successfully removing from wishlist
         this.isInWishlist = false;
-        localStorage.setItem('isInWishlist', 'false'); // Save the state in localStorage
-      },
-      error => {
-        // Optionally, you can handle errors here
-        console.error('Error removing course from wishlist:', error);
-      }
-    );
+      }, error => {
+        console.error('Error removing from wishlist:', error);
+        // Handle error appropriately, e.g., display error message
+      });
   }
 
-  checkIfInWishlist(): void {
-    const courseId = this.courseId;
-    const userId = this.userInfo.id;
-
-    this.wishlistService.checkIfInWishlist(courseId, userId).subscribe(
-      (result: boolean) => {
-        this.isInWishlist = result;
-      },
-      (error) => {
-        console.error('Error checking wishlist status:', error);
-      }
-    );
-  }
+  
 
 }

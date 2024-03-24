@@ -28,7 +28,11 @@ export class AuthService {
       httpOptions
     );
   }
-
+  isLoggedIn(): boolean {
+    // Logic to check if the user is logged in
+    // For example, you might check if there's a valid access token stored in local storage
+    return !!localStorage.getItem('accessToken');
+  }
   verifySignup(email: string, otp: string): Observable<any> {
     return this.http.post(
       `${AUTH_API}verify`,

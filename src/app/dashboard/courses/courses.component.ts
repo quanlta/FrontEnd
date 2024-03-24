@@ -306,7 +306,18 @@ export class CoursesComponent {
       addCourseModal.style.display = 'block';
     }
   }
-
+  deleteCourse(courseId: number): void {
+    this.coursesService.deleteCourse(courseId).subscribe(
+      () => {
+        console.log('Course deleted successfully.');
+ 
+      },
+      error => {
+        console.error('Error deleting course:', error);
+        // Handle error appropriately, e.g., display error message
+      }
+    );
+  }
   saveCourse() {
     // Process and save the new course data
     // Close the modal after saving
@@ -318,4 +329,7 @@ export class CoursesComponent {
   pageChanged(event: any): void {
     this.currentPage = event.page;
   }
+
+
+  
 }

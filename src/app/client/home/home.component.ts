@@ -186,12 +186,13 @@ blogs: any;
         const userJson = JSON.stringify(userInfo);
         localStorage.setItem('user', userJson);
         localStorage.setItem('accessToken', accessToken);
-
-        if (accessTokenPayload.role.includes('Admin')) {
-          this.router.navigate(['/admin/courses']);
+  
+        if (accessTokenPayload.role.includes('ADMIN')) {
+          // Check if the user is an admin and redirect to admin dashboard
+          this.router.navigate(['http://localhost:4200//admin/courses']);
         } else {
+          // If not an admin, reload the current page
           window.location.reload();
-
         }
       },
       (error) => {
@@ -201,6 +202,7 @@ blogs: any;
       }
     );
   }
+  
 
   onForgotPassword() {
     this.isForgotPasswordScreen = true;
