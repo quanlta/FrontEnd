@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CourseDetail, Courses } from '../../models/auth.model'; // Kiểm tra xem liệu này có phải là 'Courses' hay 'ResponeCourseDTO' không?
 import { ResponeCourseDTO } from '../../models/auth.model'; // Thay đổi đường dẫn đến ResponeCourseDTO nếu cần thiết
-
+import { Comment } from '../../models/auth.model';
 const baseUrl = 'http://localhost:8084/';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -28,22 +28,10 @@ export class CoursesService {
     return this.http.get<Courses>(`${this.apiUrl}/${id}`); // Sử dụng biến apiUrl thay vì baseUrl
   }
 
-  // createCourse(courseDTO: any, articleFiles: File[], videoFiles: File[], videoTrial: File, imageFile: File): Observable<any> {
-  //   const formData = new FormData();
-  //   formData.append('courseDTO', JSON.stringify(courseDTO));
-  //   articleFiles.forEach(file => formData.append('articleFiles', file));
-  //   videoFiles.forEach(file => formData.append('videoFiles', file));
-  //   formData.append('videoTrial', videoTrial);
-  //   formData.append('ImageFile', imageFile);
-    
-  //   return this.http.post<any>(`${this.apiUrl}/addCourse`, formData);
-  // }
-  
-  
   createCourse(formData: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/addCourse`, formData);
   }
-  
+
   update(id: any, data: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, data); // Sử dụng biến apiUrl thay vì baseUrl
   }
@@ -77,5 +65,8 @@ export class CoursesService {
   }
   getCourseDetail(courseId: number): Observable<CourseDetail> {
     return this.http.post<any>(`${this.apiUrl}/showSectionAndVideo/${courseId}`, {});
+  }
+  getCommentsForCourse(courseId: number): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`${this.apiUrl}/${courseId}/comments`);
   }
 }

@@ -57,8 +57,8 @@ export class CoursesComponent {
         status: [1, Validators.required],
         sections: this.fb.array([])
       }),
-      articleFiles: [null],
-      videoFiles: File,
+      articleFiles: [],
+      videoFiles: [],
       videoTrial: File,
       imageFile: File,
     });
@@ -148,23 +148,35 @@ export class CoursesComponent {
       title: [title, Validators.required] // Use the provided title
     }));
   }
-
+  onFileSelected1(event: any, field: string): void {
+    if (event.target.files && event.target.files.length) {
+      const files = event.target.files;
+      this.courseForm.patchValue({ [field]: files[0] });
+    }
+  }
   onFileSelected(event: any, field: string): void {
     if (event.target.files && event.target.files.length) {
       const files = event.target.files;
-      const fileNames = [];
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        fileNames.push(file.name);
         if (field === 'videoFiles') {
           this.addVideo(this.sections.length - 1, file.name); // Add video with file name as title
         } else if (field === 'articleFiles') {
           this.addArticle(this.sections.length - 1, file.name);
         }
       }
-      this.courseForm.patchValue({ [field]: fileNames });
+
+      // Kiểm tra nếu giá trị của this.courseForm.value[field] là null hoặc undefined, gán một mảng rỗng
+      if (!this.courseForm.value[field]) {
+        this.courseForm.patchValue({ [field]: [] });
+      }
+
+      // Sau đó, thêm tệp vào mảng
+      this.courseForm.patchValue({ [field]: this.courseForm.value[field].concat(Array.from(files)) });
     }
   }
+
+
   getArticleControls(sectionIndex: number): AbstractControl[] {
     const articles = this.sections.at(sectionIndex).get('articles') as FormArray;
     return articles.controls;
@@ -189,41 +201,44 @@ export class CoursesComponent {
   }
 
   onSubmit(): void {
-    const courseDTOstring = this.courseForm.value.courseDTO;
+    const courseDTO = this.courseForm.value.courseDTO;
     const articleFiles = this.courseForm.value.articleFiles;
     const videoFiles = this.courseForm.value.videoFiles;
     const videoTrial = this.courseForm.value.videoTrial;
     const imageFile = this.courseForm.value.imageFile;
-  
-    const courseDTO = JSON.stringify(courseDTOstring);
-  
+
+
     const formData = new FormData();
-    formData.append('courseDTO', this.courseForm.value.courseDTO);
-  
-    if (articleFiles) {
-      for (let i = 0; i < articleFiles.length; i++) {
-        formData.append('articleFiles', articleFiles[i]);
+    formData.append('courseDTO', new Blob([JSON.stringify(courseDTO)], {
+      type: 'application/json'
+    }));
+
+    // Append article files if present
+    if (articleFiles && articleFiles.length > 0) {
+      for (const file of articleFiles) {
+        formData.append('articleFiles', file);
       }
     }
-  
-    if (videoFiles) {
-      for (let i = 0; i < videoFiles.length; i++) {
-        formData.append('videoFiles', videoFiles[i]);
+
+    // Append video files if present
+    if (videoFiles && videoFiles.length > 0) {
+      for (const file of videoFiles) {
+        formData.append('videoFiles', file);
       }
     }
 
     if (videoTrial) {
       formData.append('videoTrial', videoTrial);
     }
-  
+
     if (imageFile) {
       formData.append('ImageFile', imageFile);
     }
-  
+
     // Gửi yêu cầu POST đến server
     this.coursesService.createCourse(formData).subscribe(
       response => {
-        console.log("", JSON.stringify(this.courseForm.value.courseDTO));
+        console.log("", JSON.stringify([this.courseForm.value.courseDTO]));
         console.log("ImageFile:", imageFile);
         console.log("VideoTrial:", videoTrial);
         console.log("VideoFiles:", videoFiles);
@@ -235,10 +250,10 @@ export class CoursesComponent {
       }
     );
   }
-  
-  
-  
-  
+
+
+
+
   openTab(tabName: string) {
     this.activeTab = tabName
     const tablinks = this.el.nativeElement.querySelectorAll('.tab-links');

@@ -15,11 +15,18 @@ import { routes } from './app.routes';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
+import { QuillModule } from 'ngx-quill'
 @NgModule({
   declarations: [
     
   ],
   imports: [
+    QuillModule.forRoot({
+      modules: {
+        syntax: true,
+        toolbar: [] }
+    }),
+
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,

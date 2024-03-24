@@ -3,11 +3,15 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../api/services/auth/auth.service';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { RouterLink } from '@angular/router';
+import { WishlistService } from '../../wishlist.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { WishlistItemDTO } from '../../api/models/auth.model';
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
   standalone: true,
-  imports: [ RouterLink],
+  imports: [ RouterLink,CommonModule, FormsModule],
 
   styleUrls: ['./user-info.component.css']
 })
@@ -21,11 +25,31 @@ export class UserInfoComponent implements OnInit {
   frame: any;
   facebook: any;
 imageselectedFile: File | undefined;
-  constructor(private router: Router, private authService: AuthService, private http: HttpClient) { }
+wishlistList: any;
+constructor(private wishlistService: WishlistService, private router: Router, private authService: AuthService, private http: HttpClient) { }
 
-  ngOnInit() {
-    this.getUserInfo();
+ 
+  getUserInfo() {
+    this.authService.getUserInfo().subscribe(
+      (response: any) => {
+        this.userInfo = {
+          id: response.payload.id,
+          email: response.payload.email,
+          fullname: response.payload.fullname,
+          facebook: response.payload.facebook,
+          image: response.payload.image,
+          role: response.payload.role,
+        };
+        localStorage.setItem('user', JSON.stringify(this.userInfo));
+      },
+      (error) => {
+        alert('Failed to retrieve user info');
+        console.error('Error retrieving user info:', error);
+      }
+    );
   }
+  
+  
   onUpdateImage() {
     if (!this.imageselectedFile) {
       console.error('No file selected.');
@@ -53,26 +77,6 @@ imageselectedFile: File | undefined;
   onFileImageSelected(event: any) {
     this.imageselectedFile = event.target.files[0]; // Update the selected file when a new file is selected
   }
-  getUserInfo() {
-    this.authService.getUserInfo().subscribe(
-      (response: any) => {
-        this.userInfo = {
-          id: response.payload.id,
-          email: response.payload.email,
-          fullname: response.payload.fullname,
-          facebook: response.payload.facebook,
-          image: response.payload.image,
-          role: response.payload.role,
-        };
-        localStorage.setItem('user', JSON.stringify(this.userInfo));
-      },
-      (error) => {
-        alert('Failed to retrieve user info');
-        console.error('Error retrieving user info:', error);
-      }
-    );
-  }
-
   handleUpdateInfo(key: string, e: any) {
     if (key === 'fullname') {
       this.fullname = e.target.value;
@@ -129,4 +133,25 @@ imageselectedFile: File | undefined;
       }
     );
   }
+  
+  ngOnInit() {
+    this.getUserInfo();
+
+    this.getWishlists();
+    
+  }
+  getWishlists(): void {
+
+    const userId = this.userInfo.id;
+    this.wishlistService.getAllWishlistItems(userId).subscribe(
+      (wishlists: WishlistItemDTO[]) => {
+        this.wishlistList = wishlists;
+      },
+      (error) => {
+        console.error('Error fetching wishlists:', error);
+        // Handle error appropriately (e.g., display error message to user)
+      }
+    );
+  }
+  
 }
