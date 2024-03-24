@@ -83,6 +83,8 @@ export class BlogComponent {
         console.log("BlogDTO:", JSON.stringify(blogDTO));
         console.log("Image:", image);
         console.log("Success:", response);
+        window.alert('Blog Added successfully.');
+        window.location.reload;
       },
       error => {
         console.log("Error:", error);
@@ -143,6 +145,7 @@ export class BlogComponent {
         // Optionally, you can perform any other actions after deletion
         // For example, reload the list of blogs
         // this.loadBlogs();
+        window.alert('Blog deleted successfully.');
         window.location.reload() 
       },
       error => {

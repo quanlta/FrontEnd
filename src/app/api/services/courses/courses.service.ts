@@ -73,5 +73,5 @@ export class CoursesService {
   deleteCourse(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}?id=${id}`);
   }
-
+  
 }

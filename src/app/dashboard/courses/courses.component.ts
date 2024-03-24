@@ -244,6 +244,9 @@ export class CoursesComponent {
         console.log("VideoFiles:", videoFiles);
         console.log("ArticleFiles:", articleFiles);
         console.log("Success:", response);
+        window.alert('Course Added successfully.');
+        window.location.reload;
+
       },
       error => {
         console.log("Error:", error);
@@ -307,17 +310,21 @@ export class CoursesComponent {
     }
   }
   deleteCourse(courseId: number): void {
-    this.coursesService.deleteCourse(courseId).subscribe(
-      () => {
-        console.log('Course deleted successfully.');
- 
-      },
-      error => {
-        console.error('Error deleting course:', error);
-        // Handle error appropriately, e.g., display error message
-      }
-    );
+    this.coursesService.deleteCourse(courseId)
+      .subscribe(
+        () => {
+          console.log('Course deleted successfully.');
+          window.alert('Course deleted successfully.');
+          window.location.reload;
+        },
+        error => {
+          console.error('Error deleting course:', error);
+          // Handle error appropriately, e.g., display error message
+        }
+      );
   }
+  
+  
   saveCourse() {
     // Process and save the new course data
     // Close the modal after saving
