@@ -141,7 +141,7 @@ export class UserComponent {
         alert('restore user failed');
         console.error('restore user failed', error);
       }
-    );
+    ); 
   }
 
   showRestoreConfirm(user: any) {

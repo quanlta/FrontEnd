@@ -28,8 +28,8 @@ export class CoursesService {
     return this.http.get<Courses>(`${this.apiUrl}/${id}`); // Sử dụng biến apiUrl thay vì baseUrl
   }
 
-  create(data: any): Observable<any> {
-    return this.http.post(this.apiUrl, data); // Sử dụng biến apiUrl thay vì baseUrl
+  createCourse(formData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/addCourse`, formData);
   }
 
   update(id: any, data: any): Observable<any> {

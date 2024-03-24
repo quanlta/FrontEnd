@@ -926,6 +926,7 @@
                 <div class="tutor-col-auto">
                   <div class="tutor-course-details-actions tutor-mt-12 tutor-mt-sm-0">
 
+<<<<<<< HEAD
                     <button *ngIf="!isInWishlist"
                       class="tutor-btn tutor-btn-ghost tutor-course-wishlist-btn tutor-mr-16" (click)="addToWishlist()">
                       <i class="tutor-icon-bookmark-line tutor-mr-8"></i> Add to Wishlist
@@ -939,6 +940,19 @@
 
 
 
+=======
+                    <button *ngIf="!isInWishlist" class="tutor-btn tutor-btn-ghost tutor-course-wishlist-btn tutor-mr-16" (click)="addToWishlist()">
+                      <i class="tutor-icon-bookmark-line tutor-mr-8"></i> Add to Wishlist
+                    </button>
+                    
+                    <button *ngIf="isInWishlist" class="tutor-btn tutor-btn-ghost tutor-course-wishlist-btn tutor-mr-16" (click)="removeFromWishlist()">
+                      <i class="tutor-icon-bookmark-line tutor-mr-8"></i> Remove from Wishlist
+                    </button>
+                    
+                    
+                    
+                 
+>>>>>>> f587f1debac57a0fcc52981fb5c4efbecbff23d6
 
 
                     <a data-tutor-modal-target="tutor-course-share-opener" href="#"
@@ -990,6 +1004,7 @@
           </header>
           <div class="tutor-row tutor-gx-xl-5">
             <main class="tutor-col-xl-8">
+<<<<<<< HEAD
 
               <div class="tutor-video-player">
                 <div class="loading-spinner" area-hidden="true"></div>
@@ -1214,6 +1229,273 @@
                         </div>
 
                         <div class="tutor-hr" area-hidden="true"></div>
+=======
+
+              <div class="tutor-video-player">
+                <div class="loading-spinner" area-hidden="true"></div>
+                <div *ngIf="selectedVideo" class="tutor-ratio tutor-ratio-16x9">
+                  <iframe [src]="safeUrl" frameborder="0" allowfullscreen allowtransparency allow="autoplay"></iframe>
+                </div>
+              </div>
+>>>>>>> f587f1debac57a0fcc52981fb5c4efbecbff23d6
+
+                        <div class="tutor-reviews tutor-card-list tutor-pagination-content-appendable">
+                          <div class="tutor-review-list-item tutor-card-list-item tutor-p-24 tutor-p-lg-40">
+                            <div class="tutor-row">
+                              <div class="tutor-col-lg-3 tutor-mb-16 tutor-mb-lg-0">
+                                <div class="tutor-mb-12">
+                                </div>
+
+                                <div class="tutor-reviewer-name tutor-fs-6 tutor-mb-4">
+                                  <a href="https://preview.tutorlms.com/marketplace/profile/user_name?view=student"
+                                    class="tutor-color-black">
+                                  </a>
+                                </div>
+
+<<<<<<< HEAD
+                                <div class="tutor-reviewed-on tutor-fs-7 tutor-color-muted">
+                                  5 years ago </div>
+                              </div>
+
+                              <div class="tutor-col-lg-9">
+
+                                <div class="tutor-ratingstutor-is-sm tutor-ratings-">
+                                  <div class="tutor-ratings-stars">
+                                    <span class="tutor-icon-star-bold"></span><span
+                                      class="tutor-icon-star-bold"></span><span
+                                      class="tutor-icon-star-bold"></span><span
+                                      class="tutor-icon-star-bold"></span><span class="tutor-icon-star-line"></span>
+                                  </div>
+                                </div>
+
+                                <div class="tutor-fs-7 tutor-color-secondary tutor-mt-12 tutor-review-comment">
+                                  The course is extraordinary!!<br />
+                                  It explains everything from A to Z regarding Nutrition and also there are some very
+                                  valuable workout tips.<br />
+                                  Great job! </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="tutor-review-list-item tutor-card-list-item tutor-p-24 tutor-p-lg-40">
+                            <div class="tutor-row">
+                              <div class="tutor-col-lg-3 tutor-mb-16 tutor-mb-lg-0">
+                                <div class="tutor-mb-12">
+                                </div>
+
+                                <div class="tutor-reviewer-name tutor-fs-6 tutor-mb-4">
+                                  <a href="https://preview.tutorlms.com/marketplace/profile/user_name?view=student"
+                                    class="tutor-color-black">
+                                  </a>
+                                </div>
+
+                                <div class="tutor-reviewed-on tutor-fs-7 tutor-color-muted">
+                                  5 years ago </div>
+                              </div>
+
+=======
+              <div class="tutor-course-details-tab tutor-mt-32">
+                <div class="tutor-is-sticky">
+                  <nav class="tutor-nav" tutor-priority-nav>
+                    <li class="tutor-nav-item">
+                      <a class="tutor-nav-link is-active" href="#"
+                        data-tutor-nav-target="tutor-course-details-tab-info">Course Info</a>
+                    </li>
+                 
+                    <li class="tutor-nav-item tutor-nav-more tutor-d-none">
+                      <a class="tutor-nav-link tutor-nav-more-item" href="#"><span class="tutor-mr-4">More</span> <span
+                          class="tutor-nav-more-icon tutor-icon-times"></span></a>
+                      <ul class="tutor-nav-more-list tutor-dropdown"></ul>
+                    </li>
+                  </nav>
+                </div>
+                <div class="tutor-tab tutor-pt-24">
+                  <div id="tutor-course-details-tab-info" class="tutor-tab-item is-active">
+                    <div class="tutor-course-details-content tutor-toggle-more-content tutor-toggle-more-collapsed"
+                    data-tutor-toggle-more-content data-toggle-height="200" style="height: 200px;">
+                 <h2 class="tutor-fs-5 tutor-fw-bold tutor-color-black tutor-mb-12">
+                   About Course
+                 </h2>
+                 <span>{{ courseDetail?.courseDescription }}</span>
+               </div>
+               
+
+                    <div class="tutor-course-details-widget tutor-course-details-widget-col-2 tutor-mt-lg-50 tutor-mt-32" style="font-family: Open Sans; display: flex;">
+                      <h3 class="tutor-course-details-widget-title tutor-fs-5 tutor-fw-bold tutor-color-black tutor-mb-16">
+                        What Will You Learn?
+                      </h3>
+                      <div class="tutor-d-flex tutor-mb-12">
+                        <div class="objective-benefit-wrapper">
+                          <strong>Learning Objectives</strong> <br>
+                          <span style="margin-top: 50px;">{{ courseDetail?.learningDetail?.objective }}</span><br>
+                        </div>
+                      </div>
+                      <div class="tutor-d-flex tutor-mb-12">
+                        <div class="objective-benefit-wrapper">
+                          <strong>Benefits</strong> <br>
+                          <span style="margin-top: 10px;">{{ courseDetail?.learningDetail?.benefit }}</span>
+                        </div>
+                      </div>
+                      <!-- Additional objectives and benefits can be included similarly -->
+                    </div>
+                    
+
+                    <div class="tutor-mt-40">
+                    </div>
+
+                  </div>
+                  <div id="tutor-course-details-tab-reviews" class="tutor-tab-item">
+
+                    <div class="tutor-pagination-wrapper-replaceable">
+                      <h3 class="tutor-fs-5 tutor-fw-bold tutor-color-black tutor-mb-24">
+                        Student Ratings &amp; Reviews </h3>
+
+                      <div class="tutor-card tutor-review-card">
+                        <div class="tutor-review-summary tutor-p-24 tutor-p-lg-40">
+                          <div class="tutor-row tutor-gx-xl-5 tutor-align-center">
+                            <div class="tutor-col-lg-auto tutor-text-center tutor-mb-16 tutor-mb-lg-0">
+                              <div class="tutor-review-summary-average-rating tutor-mb-20">
+                                4.5 </div>
+
+                              <div>
+                                <div class="tutor-d-inline-block">
+                                  <div class="tutor-ratings tutor-ratings-lg">
+                                    <div class="tutor-ratings-stars">
+                                      <span class="tutor-icon-star-bold"></span><span
+                                        class="tutor-icon-star-bold"></span><span
+                                        class="tutor-icon-star-bold"></span><span
+                                        class="tutor-icon-star-bold"></span><span class="tutor-icon-star-bold"></span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="tutor-fs-6 tutor-color-secondary tutor-mt-12 tutor-total-rating-count">
+                                Total 2 Ratings </div>
+                            </div>
+
+                            <div class="tutor-col-lg">
+                              <div class="tutor-review-summary-ratings">
+                                <div class="tutor-row tutor-align-center tutor-review-summary-rating">
+                                  <div class="tutor-col-auto">
+                                    <div class="tutor-ratings">
+                                      <div class="tutor-ratings-stars">
+                                        <span class="tutor-icon-star-line" area-hidden="true"></span>
+                                      </div>
+                                      <div class="tutor-ratings-average">
+                                        5 </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="tutor-col">
+                                    <div class="tutor-progress-bar tutor-ratings-progress-bar"
+                                      style="--tutor-progress-value: 50%">
+                                      <span class="tutor-progress-value" area-hidden="true"></span>
+                                    </div>
+                                  </div>
+
+                                  <div class="tutor-col-4 tutor-col-lg-3">
+                                    <span class="tutor-fs-6 tutor-color-secondary tutor-individual-star-rating">1
+                                      Rating</span>
+                                  </div>
+                                </div>
+                                <div class="tutor-row tutor-align-center tutor-review-summary-rating">
+                                  <div class="tutor-col-auto">
+                                    <div class="tutor-ratings">
+                                      <div class="tutor-ratings-stars">
+                                        <span class="tutor-icon-star-line" area-hidden="true"></span>
+                                      </div>
+                                      <div class="tutor-ratings-average">
+                                        4 </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="tutor-col">
+                                    <div class="tutor-progress-bar tutor-ratings-progress-bar"
+                                      style="--tutor-progress-value: 50%">
+                                      <span class="tutor-progress-value" area-hidden="true"></span>
+                                    </div>
+                                  </div>
+
+                                  <div class="tutor-col-4 tutor-col-lg-3">
+                                    <span class="tutor-fs-6 tutor-color-secondary tutor-individual-star-rating">1
+                                      Rating</span>
+                                  </div>
+                                </div>
+                                <div class="tutor-row tutor-align-center tutor-review-summary-rating">
+                                  <div class="tutor-col-auto">
+                                    <div class="tutor-ratings">
+                                      <div class="tutor-ratings-stars">
+                                        <span class="tutor-icon-star-line" area-hidden="true"></span>
+                                      </div>
+                                      <div class="tutor-ratings-average">
+                                        3 </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="tutor-col">
+                                    <div class="tutor-progress-bar tutor-ratings-progress-bar"
+                                      style="--tutor-progress-value: 0%">
+                                      <span class="tutor-progress-value" area-hidden="true"></span>
+                                    </div>
+                                  </div>
+
+                                  <div class="tutor-col-4 tutor-col-lg-3">
+                                    <span class="tutor-fs-6 tutor-color-secondary tutor-individual-star-rating">0
+                                      Rating</span>
+                                  </div>
+                                </div>
+                                <div class="tutor-row tutor-align-center tutor-review-summary-rating">
+                                  <div class="tutor-col-auto">
+                                    <div class="tutor-ratings">
+                                      <div class="tutor-ratings-stars">
+                                        <span class="tutor-icon-star-line" area-hidden="true"></span>
+                                      </div>
+                                      <div class="tutor-ratings-average">
+                                        2 </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="tutor-col">
+                                    <div class="tutor-progress-bar tutor-ratings-progress-bar"
+                                      style="--tutor-progress-value: 0%">
+                                      <span class="tutor-progress-value" area-hidden="true"></span>
+                                    </div>
+                                  </div>
+
+                                  <div class="tutor-col-4 tutor-col-lg-3">
+                                    <span class="tutor-fs-6 tutor-color-secondary tutor-individual-star-rating">0
+                                      Rating</span>
+                                  </div>
+                                </div>
+                                <div class="tutor-row tutor-align-center tutor-review-summary-rating">
+                                  <div class="tutor-col-auto">
+                                    <div class="tutor-ratings">
+                                      <div class="tutor-ratings-stars">
+                                        <span class="tutor-icon-star-line" area-hidden="true"></span>
+                                      </div>
+                                      <div class="tutor-ratings-average">
+                                        1 </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="tutor-col">
+                                    <div class="tutor-progress-bar tutor-ratings-progress-bar"
+                                      style="--tutor-progress-value: 0%">
+                                      <span class="tutor-progress-value" area-hidden="true"></span>
+                                    </div>
+                                  </div>
+
+                                  <div class="tutor-col-4 tutor-col-lg-3">
+                                    <span class="tutor-fs-6 tutor-color-secondary tutor-individual-star-rating">0
+                                      Rating</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="tutor-hr" area-hidden="true"></div>
 
                         <div class="tutor-reviews tutor-card-list tutor-pagination-content-appendable">
                           <div class="tutor-review-list-item tutor-card-list-item tutor-p-24 tutor-p-lg-40">
@@ -1267,6 +1549,7 @@
                                   5 years ago </div>
                               </div>
 
+>>>>>>> f587f1debac57a0fcc52981fb5c4efbecbff23d6
                               <div class="tutor-col-lg-9">
 
                                 <div class="tutor-ratingstutor-is-sm tutor-ratings-">
@@ -1289,6 +1572,16 @@
 
                       <div class="tutor-row tutor-mt-40 tutor-mb-20">
                         <div class="tutor-col">
+<<<<<<< HEAD
+=======
+                        </div>
+
+                        <div class="tutor-col-auto">
+                          <nav
+                            data-tutor_pagination_ajax="{&quot;action&quot;:&quot;tutor_single_course_reviews_load_more&quot;,&quot;course_id&quot;:573}"
+                            data-tutor_pagination_layout="{&quot;type&quot;:&quot;load_more&quot;,&quot;load_more_text&quot;:&quot;Load More&quot;}"
+                            class=""></nav>
+>>>>>>> f587f1debac57a0fcc52981fb5c4efbecbff23d6
                         </div>
 
                         <div class="tutor-col-auto">
@@ -1342,9 +1635,12 @@
                         </ul>
                       </div>
                     </div>
+
+
                   </div>
                 </div>
               </div>
+<<<<<<< HEAD
             </main>
 
             <aside class="tutor-col-xl-4">
@@ -1387,6 +1683,82 @@
                     </div>
                   </div>
 
+=======
+
+              <!-- Load Comment -->
+              <div class="hello">
+                <div class="row bootstrap snippets bootdeys">
+                  <div class="comment-wrapper">
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
+                        Comment panel
+                      </div>
+
+                      <div class="panel-body">
+                        <textarea class="form-control" placeholder="write a comment..." rows="3"
+                          [(ngModel)]="comment"></textarea>
+
+                        <br>
+                        <button type="button" class="btn btn-info pull-right" (click)="onSubmit()">Post</button>
+                        <div class="clearfix"></div>
+                        <hr>
+                        <ul class="media-list">
+                          <li class="media" *ngFor="let comment of commentList">
+                            <a href="#" class="pull-left">
+                              <img [src]="comment.userImage" alt="" class="img-circle">
+                            </a>
+                            <div class="media-body">
+                              <span class="text-muted pull-right">
+                                <small class="text-muted">{{ comment.createdDate | date: 'dd/MM/yyyy HH:mm:ss' }}</small>
+                              </span>
+                              
+                              
+                              
+                              <strong class="text-success">{{ comment.userName }}</strong>
+                              <p>{{ comment.commentText }}</p>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+
+            <aside class="tutor-col-xl-4">
+              <div class="tutor-single-course-sidebar tutor-mt-40 tutor-mt-xl-0" style="background-color: rgb(252, 252, 253);">
+
+                <div class="tutor-card tutor-card-md tutor-sidebar-card" style="background-color: rgb(252, 252, 253);" >
+                  <div class="wp-block-qubely-advancedlist qubely-block-63f40b" *ngIf="courseDetail" >
+                    <div class="qubely-block-advanced-list qubely-alignment-left">
+                      <ul class="qubely-list qubely-list-type-unordered qubely-list-bullet-check-circle-outline">
+                        <li *ngFor="let section of courseDetail.sections; let i = index">
+                          <!-- Display section number and name -->
+                          <strong>{{ i + 1 }}. {{ section.sectionName }}</strong>
+                          <ul>
+                
+                            <ng-container *ngFor="let item of section.articles">
+                              <li class="article-item" style="background-color: none;">
+                                <!-- Display article link -->
+                                <a [href]="item.articleUrl" target="_blank">Article: {{ item.title }}</a>
+                              </li>
+                            </ng-container>
+                
+                            <ng-container *ngFor="let item of section.videos">
+                              <li class="video-item" (click)="selectVideo(item)">
+                                <!-- Display video title -->
+                                <a>Video: {{ item.title }}</a>
+                              </li>
+                            </ng-container>
+                
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  
+>>>>>>> f587f1debac57a0fcc52981fb5c4efbecbff23d6
 
 
                   <!-- Course Info -->
@@ -1403,10 +1775,17 @@
                       <li class="tutor-d-flex tutor-mt-12">
                         <span class="tutor-icon-refresh-o tutor-color-black tutor-mt-4 tutor-mr-12"
                           aria-labelledby="Last Updated"></span>
+<<<<<<< HEAD
                         <span class="tutor-fs-6 tutor-color-secondary">Created At:
                           {{ courseDetail?.courseDate | date: 'dd/MM/yyyy' }}
                         </span>
 
+=======
+                          <span class="tutor-fs-6 tutor-color-secondary">Created At: 
+                            {{ courseDetail?.courseDate | date: 'dd/MM/yyyy' }}
+                          </span>
+                          
+>>>>>>> f587f1debac57a0fcc52981fb5c4efbecbff23d6
                       </li>
                     </ul>
                   </div>
@@ -1495,8 +1874,62 @@
 
                     </div>
                   </div>
+<<<<<<< HEAD
 
 
+=======
+                  <div class="tutor-course-details-widget">
+                    <h3
+                      class="tutor-course-details-widget-title tutor-fs-5 tutor-color-black tutor-fw-bold tutor-mb-16">
+                      Material Includes </h3>
+                    <ul class="tutor-course-details-widget-list tutor-fs-6 tutor-color-black">
+                      <li class="tutor-d-flex tutor-mb-12">
+                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
+                          area-hidden="true"></span>
+                        <span>4 hours on-demand video</span>
+                      </li>
+                      <li class="tutor-d-flex tutor-mb-12">
+                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
+                          area-hidden="true"></span>
+                        <span>4 articles</span>
+                      </li>
+                      <li class="tutor-d-flex tutor-mb-12">
+                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
+                          area-hidden="true"></span>
+                        <span>3 downloadable resources</span>
+                      </li>
+                      <li class="tutor-d-flex tutor-mb-12">
+                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
+                          area-hidden="true"></span>
+                        <span>Full lifetime access</span>
+                      </li>
+                      <li class="tutor-d-flex tutor-mb-12">
+                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
+                          area-hidden="true"></span>
+                        <span>Access on mobile and TV</span>
+                      </li>
+                      <li class="tutor-d-flex tutor-mb-12">
+                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
+                          area-hidden="true"></span>
+                        <span>Certificate of Completion</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="tutor-course-details-widget">
+                    <h3
+                      class="tutor-course-details-widget-title tutor-fs-5 tutor-color-black tutor-fw-bold tutor-mb-16">
+                      Requirements </h3>
+                    <ul class="tutor-course-details-widget-list tutor-fs-6 tutor-color-black">
+                      <li class="tutor-d-flex tutor-mb-12"><span
+                          class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
+                          area-hidden="true"></span><span>No prior health knowledge is required or assumed</span></li>
+                      <li class="tutor-d-flex tutor-mb-12"><span
+                          class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
+                          area-hidden="true"></span><span>A digital food scale will help but is not required</span></li>
+                    </ul>
+                  </div>
+>>>>>>> f587f1debac57a0fcc52981fb5c4efbecbff23d6
 
 
                   <div class="tutor-course-details-widget">
@@ -1513,6 +1946,27 @@
                     </div>
                   </div>
 
+<<<<<<< HEAD
+=======
+                  <div class="tutor-course-details-widget">
+                    <h3
+                      class="tutor-course-details-widget-title tutor-fs-5 tutor-color-black tutor-fw-bold tutor-mb-16">
+                      Audience </h3>
+                    <ul class="tutor-course-details-widget-list tutor-fs-6 tutor-color-black">
+                      <li class="tutor-d-flex tutor-mb-12">
+                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
+                          area-hidden="true"></span>
+                        <span>Anyone wanting to learn the truth about dieting &amp; meal planning</span>
+                      </li>
+                      <li class="tutor-d-flex tutor-mb-12">
+                        <span class="tutor-icon-bullet-point tutor-color-muted tutor-mt-2 tutor-mr-8 tutor-fs-8"
+                          area-hidden="true"></span>
+                        <span>Anyone with an open mind towards dieting</span>
+                      </li>
+                    </ul>
+                  </div>
+
+>>>>>>> f587f1debac57a0fcc52981fb5c4efbecbff23d6
                 </div>
 
               </div>

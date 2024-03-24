@@ -7,7 +7,10 @@ import { WishlistService } from '../../wishlist.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { WishlistItemDTO } from '../../api/models/auth.model';
+<<<<<<< HEAD
 import { ActivatedRoute } from '@angular/router';
+=======
+>>>>>>> f587f1debac57a0fcc52981fb5c4efbecbff23d6
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
@@ -28,7 +31,11 @@ export class UserInfoComponent implements OnInit {
   facebook: any;
 imageselectedFile: File | undefined;
 wishlistList: any;
+<<<<<<< HEAD
 constructor(private wishlistService: WishlistService, private router: Router, private authService: AuthService, private http: HttpClient, private route: ActivatedRoute) { }
+=======
+constructor(private wishlistService: WishlistService, private router: Router, private authService: AuthService, private http: HttpClient) { }
+>>>>>>> f587f1debac57a0fcc52981fb5c4efbecbff23d6
 
  
   getUserInfo() {
@@ -139,12 +146,22 @@ constructor(private wishlistService: WishlistService, private router: Router, pr
   ngOnInit() {
     this.getUserInfo();
 
+<<<<<<< HEAD
     
     
   }
   getWishlists(): void {
     
     this.wishlistService.getAllWishlistItems(this.userId).subscribe(
+=======
+    this.getWishlists();
+    
+  }
+  getWishlists(): void {
+
+    const userId = this.userInfo.id;
+    this.wishlistService.getAllWishlistItems(userId).subscribe(
+>>>>>>> f587f1debac57a0fcc52981fb5c4efbecbff23d6
       (wishlists: WishlistItemDTO[]) => {
         this.wishlistList = wishlists;
       },

@@ -161,4 +161,10 @@ export class Answer {
     public correct?: boolean
   ) {}
 }
+export class Blog {
+  constructor(
+    public title: any,
+    public description: any,
+  ) {}
+}
 
