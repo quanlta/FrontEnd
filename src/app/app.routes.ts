@@ -13,6 +13,7 @@ import { WishlistComponent } from './client/user-info/wishlist/wishlist.componen
 import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { ListBlogComponent } from './list-blog/list-blog.component';
 import { CourseNotRegisterdComponent } from './course-not-registerd/course-not-registerd.component';
+import { QuizComponent } from './quiz/quiz.component';
 import { AdminGuard } from './admin.guard';
 import { AuthGuard } from './user-.guard';
 export const routes: Routes = [
@@ -43,7 +44,12 @@ export const routes: Routes = [
     path: 'list-blogs/blogs/:id',
     component: BlogDetailComponent,
     title: 'blogs details',
+  },{
+    path: 'quiz/:id',
+    component: QuizComponent,
+    title: 'Quiz'
   },
+
 
 
   
