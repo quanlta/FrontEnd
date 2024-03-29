@@ -147,20 +147,13 @@ export class Quiz {
 
 export class Question {
   constructor(
-    public id?: number,
-    public text?: string,
-    public point?: number,
-    public answers?: Answer[]
+    public id: number,
+    public text: string,
+    public point: number,
+    public answers: Answer[]
   ) {}
 }
 
-export class Answer {
-  constructor(
-    public id?: number,
-    public text?: string,
-    public correct?: boolean
-  ) {}
-}
 export class Blog {
   constructor(
     public title: any,
@@ -168,3 +161,29 @@ export class Blog {
   ) {}
 }
 
+export interface Answer {
+  id: number;
+  text: string;
+  correct: boolean;
+}
+export interface QuizAnswerResponse {
+  id: number;
+  userId: number;
+  title: string;
+  startTime: Date;
+  endTime: Date;
+  quizId: number;
+  questionList: Question[];
+  answerList: AnswerAttempt[];
+  totalPoint: number;
+  point: number;
+}
+// answer-attempt.model.ts
+
+export interface AnswerAttempt {
+  attemptId: number;
+  questionId: number;
+  selectedAnswerId: number;
+  correctAnswerId: number;
+  // Add any other properties if necessary
+}

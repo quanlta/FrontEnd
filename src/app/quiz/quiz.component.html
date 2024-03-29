@@ -1,11 +1,24 @@
-<div *ngIf="quizData">
-  <h1>{{ quizData?.quizTitle }}</h1>
-  <div *ngFor="let question of quizData.question">
-    <h2>{{ question.text }}</h2>
-    <ul>
-      <li *ngFor="let answer of question.answers">
-        {{ answer.text }} - {{ answer.correct ? 'Correct' : 'Incorrect' }}
-      </li>
-    </ul>
+<div *ngIf="quiz">
+  <h2>{{ quiz.title }}</h2>
+  
+  <!-- Display questions -->
+  <div *ngFor="let question of quiz.questions">
+    <h3>{{ question.text }}</h3>
+    
+    <!-- Display options -->
+    <div *ngFor="let answer of question.answers">
+      <label>
+        <input type="radio" name="question{{ question.id }}" [value]="answer.id" (change)="selectAnswer(question.id, answer.id)">
+        {{ answer.text }}
+      </label>
+    </div>
+
   </div>
+  
+  <!-- Button to submit answers -->
+  <button (click)="submitAnswer()">Submit Answers</button>
+</div>
+
+<div *ngIf="!quiz">
+  <p>Loading quiz...</p>
 </div>

@@ -1,81 +1,74 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { QuizService } from '../api/services/quiz/quiz.service';
-
-interface Quiz {
-  quizId: number;
-  quizTitle: string;
-  questions: Question[];
-}
-
-interface Question {
-  id: number;
-  text: string;
-  point: number;
-  answers: Answer[];
-}
-
-interface Answer {
-  id: number;
-  text: string;
-  correct: boolean;
-}
-
+import { QuizService } from '../quiz.service'; 
+import { Quiz } from '../api/models/auth.model';
+import { QuizAnswerResponse } from '../api/models/auth.model';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
-  styleUrls: ['./quiz.component.css']
+  styleUrls: ['./quiz.component.css'],
+  imports: [CommonModule, FormsModule],
+  standalone: true
 })
 export class QuizComponent implements OnInit {
-  quizId: any;
-  quizData: Quiz | null = null;
 
-  constructor(private quizService: QuizService, private route: ActivatedRoute) { }
+  quiz: Quiz = {}; 
+  quizId: number = 0; 
+  submittedAnswer: string = ''; 
+  answerHistory: QuizAnswerResponse[] = []; 
+  selectedAnswers: Map<number, string> = new Map<number, string>(); 
+
+  constructor(private quizService: QuizService) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      this.quizId = +params['id'];
-      this.getQuiz();
-    });
+    // Initialize quiz data when component initializes
+    this.loadQuiz();
   }
 
-  getQuiz(): void {
-    this.quizService.getQuiz(this.quizId).subscribe(
-      (data: Quiz) => {
-        this.quizData = data;
+  loadQuiz(): void {
+    // Example: Load quiz with ID 279
+    this.quizService.getQuiz(279).subscribe(
+      (quiz: Quiz) => {
+        this.quiz = quiz;
       },
-      error => {
-        console.error('Failed to get quiz data:', error);
+      (error) => {
+        console.error('Error loading quiz:', error);
       }
     );
   }
-
-  submitAnswer(questionId: number, answerId: number): void {
-    const answerData = {
-      quizId: this.quizId,
-      answerRequests: [{ questionId, answerId }],
-      startTime: new Date().toISOString(),
-      endTime: new Date().toISOString()
+  submitAnswer(): void {
+    // Example: Submit answer for quiz with ID 1
+    const submitAnswerRequest: any = {
+      // Assuming the submittedAnswer is fetched from a form input
+      answer: this.submittedAnswer
     };
-    this.quizService.submitAnswer(this.quizId, answerData).subscribe(
-      (response) => {
-        console.log("Answer submitted successfully:", response);
-        console.log("Quiz: ", this.quizData);
+
+    this.quizService.submitAnswer(this.quizId, submitAnswerRequest).subscribe(
+      (response: any) => {
+        console.log('Answer submitted successfully:', response);
+        // Reload answer history after submitting answer
+        // this.loadAnswerHistory();
       },
       (error) => {
-        console.error("Failed to submit answer:", error);
+        console.error('Error submitting answer:', error);
       }
     );
   }
 
-  getAnswerHistory(): void {
-    this.quizService.getAnswerHistory(this.quizId).subscribe(
-      (response) => {
-        console.log("Answer history:", response);
-      },
-      (error) => {
-        console.error("Failed to get answer history:", error);
-      }
-    );
+  // loadAnswerHistory(): void {
+  //   // Example: Load answer history for quiz with ID 1
+  //   this.quizService.getAnswerHistory(this.quizId).subscribe(
+  //     (history: QuizAnswerResponse[]) => {
+  //       this.answerHistory = history;
+  //     },
+  //     (error) => {
+  //       console.error('Error loading answer history:', error);
+  //     }
+  //   );
+  // }
+  selectAnswer(questionId: number, answerId: number): void {
+    this.selectedAnswers.set(questionId, answerId.toString());
   }
+  
 }
