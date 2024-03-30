@@ -45,7 +45,7 @@ export const routes: Routes = [
     component: BlogDetailComponent,
     title: 'blogs details',
   },{
-    path: 'quiz/:id',
+    path: 'quiz/:quizId',
     component: QuizComponent,
     title: 'Quiz'
   },

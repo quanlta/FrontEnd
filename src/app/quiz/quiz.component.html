@@ -1,8 +1,8 @@
 <div *ngIf="quiz">
-  <h2>{{ quiz.title }}</h2>
+  <h2>{{ quiz.quizTitle }}</h2>
   
   <!-- Display questions -->
-  <div *ngFor="let question of quiz.questions">
+  <div *ngFor="let question of quiz.question">
     <h3>{{ question.text }}</h3>
     
     <!-- Display options -->
@@ -12,7 +12,6 @@
         {{ answer.text }}
       </label>
     </div>
-
   </div>
   
   <!-- Button to submit answers -->

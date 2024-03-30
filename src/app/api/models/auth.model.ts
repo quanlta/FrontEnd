@@ -139,9 +139,9 @@ export class Video {
 
 export class Quiz {
   constructor(
-    public id?: number,
-    public title?: string,
-    public questions?: Question[]
+    public quizId?: number,
+    public quizTitle?: string,
+    public question?: Question[]
   ) {}
 }
 
@@ -167,16 +167,19 @@ export interface Answer {
   correct: boolean;
 }
 export interface QuizAnswerResponse {
-  id: number;
-  userId: number;
-  title: string;
-  startTime: Date;
-  endTime: Date;
-  quizId: number;
-  questionList: Question[];
-  answerList: AnswerAttempt[];
-  totalPoint: number;
-  point: number;
+  status: string;
+  payload: {
+    id: number;
+    userId: number;
+    title: string;
+    startTime: Date;
+    endTime: Date;
+    quizId: number;
+    questionList: Question[];
+    answerList: AnswerAttempt[];
+    totalPoint: number;
+    point: number;
+  }[];
 }
 // answer-attempt.model.ts
 
