@@ -111,6 +111,7 @@ export class CoursesDetailComponent implements OnInit {
   comment: string = ''; // Biến comment để lưu nội dung comment
   userId: any
   courseId: any;
+  quizId: any;
   courseDetail: Course | null = null; // Fix typo here
   courseList: any;
   cardItem: any = [];
@@ -118,7 +119,7 @@ export class CoursesDetailComponent implements OnInit {
   commentList: any
   isInWishlist: boolean = false;
 
-  constructor(private wishlistService: WishlistService, private sanitizer: DomSanitizer,private authService: AuthService, private commentService: CommentService, private route: ActivatedRoute, private coursesService: CoursesService, private router: Router) {
+  constructor(private wishlistService: WishlistService, private sanitizer: DomSanitizer, private authService: AuthService, private commentService: CommentService, private route: ActivatedRoute, private coursesService: CoursesService, private router: Router) {
     this.currentURL = this.router.url;
   }
   loadComments() {
@@ -132,7 +133,7 @@ export class CoursesDetailComponent implements OnInit {
     this.selectedVideo = video;
   }
   onSubmit(): void {
-    
+
     console.log("userID", this.userInfo.id);
     console.log("course", this.courseId)
     // Assuming this.userId and this.courseId are properly initialized elsewhere
@@ -189,7 +190,6 @@ export class CoursesDetailComponent implements OnInit {
       } else {
         console.error('Invalid courseId:', params['id']);
       }
-
       // Assuming you retrieve userId from another route parameter or somewhere else
       this.userId = this.userInfo.id // Adjust accordingly based on where userId comes from
     });
@@ -229,7 +229,10 @@ export class CoursesDetailComponent implements OnInit {
     localStorage.setItem('cardItem', JSON.stringify(this.cardItem));
     window.location.reload()
   }
-
+  navigateToQuiz(quizId: number): void {
+    this.router.navigate(['/quiz', quizId]);
+  }
+  
   getCourseDetail(): void {
     this.coursesService.getCourseDetail(this.courseId).subscribe(
       (data: any) => {
@@ -298,23 +301,22 @@ export class CoursesDetailComponent implements OnInit {
       }
     );
   }
- 
   addToWishlist(): void {
     // Create a WishlistItem object with the courseId
     const wishlistItem: WishlistItem = {
       courseId: this.courseId,
       userId: this.userInfo.id // Assuming the user ID will be assigned by the server or obtained from authentication
     };
-  
+
     // Call the addToWishlist method from the wishlist service
     this.wishlistService.addToWishlist(wishlistItem)
-    .subscribe(() => {
-      // Update isInWishlist to true after successfully adding to wishlist
-      this.isInWishlist = true;
-    }, error => {
-      console.error('Error adding to wishlist:', error);
-      // Handle error appropriately, e.g., display error message
-    });
+      .subscribe(() => {
+        // Update isInWishlist to true after successfully adding to wishlist
+        this.isInWishlist = true;
+      }, error => {
+        console.error('Error adding to wishlist:', error);
+        // Handle error appropriately, e.g., display error message
+      });
   }
   checkIfInWishlist(courseId: number, userId: number): void {
     this.wishlistService.checkIfInWishlist(courseId, userId)
@@ -332,7 +334,7 @@ export class CoursesDetailComponent implements OnInit {
         console.error('Error checking wishlist:', error);
         // Handle error appropriately, e.g., display error message
       });
-  }  
+  }
   removeFromWishlist(courseId: number, userId: number): void {
     // Call the WishlistService to remove course from wishlist
     this.wishlistService.deleteFromWishlist(courseId, userId)
@@ -345,6 +347,6 @@ export class CoursesDetailComponent implements OnInit {
       });
   }
 
-  
+
 
 }
