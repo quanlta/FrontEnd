@@ -4,27 +4,12 @@ import { Quiz } from '../api/models/auth.model';
 import { QuizAnswerResponse } from '../api/models/auth.model';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../api/services/auth/auth.service';
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders,  HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  constructor() { }
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-    }
-    return next.handle(request);
-  }
-}
-
+@Injectable({
+  providedIn: 'root'
+})
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
@@ -35,16 +20,19 @@ export class AuthInterceptor implements HttpInterceptor {
 export class QuizComponent implements OnInit {
   quiz: Quiz = {};
   quizId: number = 0;
+  id: number = 0;
+  showQuiz: boolean = false;
   submittedAnswer: string = '';
+  quizHistory: any[] = [];
   answerHistory: QuizAnswerResponse[] = [];
   selectedAnswers: Map<number, string> = new Map<number, string>();
-  totalPoints: number = 0;
-  constructor(private route: ActivatedRoute, private quizService: QuizService) { }
-
+  constructor(private route: ActivatedRoute, private quizService: QuizService, private http: HttpClient) { }
+  startQuiz(): void {
+    this.loadQuiz();
+  }
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.quizId = +params['quizId'];
-      this.loadQuiz();
     });
   }
 
@@ -52,6 +40,7 @@ export class QuizComponent implements OnInit {
     this.quizService.getQuiz(this.quizId).subscribe(
       (quiz: Quiz) => {
         this.quiz = quiz;
+        this.showQuiz = true;
       },
       (error) => {
         console.error('Error loading quiz:', error);
@@ -59,18 +48,20 @@ export class QuizComponent implements OnInit {
     );
   }
 
+  
   submitAnswer(): void {
     const startTime = new Date();
     const endTime = new Date();
 
     const answerRequest: any = {
+      quizId: this.quizId,
       startTime: startTime.toISOString(),
       endTime: endTime.toISOString(),
-      answers: []
+      answerRequests: []
     };
 
     this.selectedAnswers.forEach((answerId, questionId) => {
-      answerRequest.answers.push({
+      answerRequest.answerRequests.push({
         questionId: questionId,
         answerId: answerId
       });
@@ -80,7 +71,7 @@ export class QuizComponent implements OnInit {
       (response: any) => {
         console.log('Answer submitted successfully:', response);
         console.log('Answer:', answerRequest);
-        this.loadAnswerHistory();
+        window.alert(`Your points: ${response.payload.point}`);
       },
       (error) => {
         console.error('Error submitting answer:', error);
@@ -88,18 +79,23 @@ export class QuizComponent implements OnInit {
     );
   }
 
-  loadAnswerHistory(): void {
+  loadQuizHistory(): void {
     this.quizService.getAnswerHistory(this.quizId).subscribe(
-      (history: QuizAnswerResponse[]) => {
-        console.log('Quiz answer response:', history);
-        this.answerHistory = history;
+      (response: any) => {
+        this.quizHistory = response.payload;
+        this.openQuizHistoryModal();
       },
       (error) => {
-        console.error('Error loading answer history:', error);
+        console.error('Error loading quiz history:', error);
       }
     );
   }
+  openQuizHistoryModal(): void {
+    // Code to open the modal
+  }
 
+  
+  
   selectAnswer(questionId: number, answerId: number): void {
     this.selectedAnswers.set(questionId, answerId.toString());
   }
