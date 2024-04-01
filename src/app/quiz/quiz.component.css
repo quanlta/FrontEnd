@@ -46,4 +46,48 @@
     text-decoration: none;
     cursor: pointer;
   }
-  
+  /* Style for table headers */
+thead {
+  background-color: #f2f2f2;
+}
+
+th {
+  padding: 10px;
+  text-align: center;
+}
+
+/* Style for buttons */
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Style for quiz questions */
+h2 {
+  margin-bottom: 10px;
+}
+
+h3 {
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+/* Style for quiz options */
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Style for quiz submission button */
+.submit-button {
+  margin-top: 20px;
+}

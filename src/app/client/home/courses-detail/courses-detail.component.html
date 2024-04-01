@@ -1377,7 +1377,7 @@
                             <ng-container *ngFor="let item of section.quizzes">
                               <li class="article-item" style="background-color: none;">
                                 <!-- Display article link -->
-                                <a (click)="navigateToQuiz(item.quizId)" [href]="" target="_blank">Quiz: {{ item.quizId }}</a>
+                                <a (click)="navigateToQuiz(item.quizId)" [href]="" target="_blank">Quiz: {{ item.title }}</a>
                               </li>
                             </ng-container>
                           </ul>

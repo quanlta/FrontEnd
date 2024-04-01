@@ -72,6 +72,7 @@ export class QuizComponent implements OnInit {
         console.log('Answer submitted successfully:', response);
         console.log('Answer:', answerRequest);
         window.alert(`Your points: ${response.payload.point}`);
+        window.location.reload();
       },
       (error) => {
         console.error('Error submitting answer:', error);
