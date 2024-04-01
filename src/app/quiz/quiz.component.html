@@ -14,7 +14,7 @@
   <div class="container-fluid" data-wow-duration="1s" data-wow-delay="0.7s">
     <div class="row">
       <div class="col-lg-9">
-        <div class="course-carousel" style="margin-left: 200px;">
+        <div class="course-carousel" style="margin-left: 200px; border: 1px solid #ccc; padding: 20px;">
           <div *ngIf="!showQuiz">
             <button (click)="startQuiz()">Start Quiz</button>
           </div>
@@ -23,10 +23,10 @@
               <h2>{{ quiz.quizTitle }}</h2>
               <!-- Display questions -->
               <div *ngFor="let question of quiz.question; let i = index">
-                <h3 style="font-weight: bold;">Question {{ i + 1 }}: {{ question.text }}</h3>
+                <h3 style="font-weight: 650;">Question {{ i + 1 }}: {{ question.text }}</h3>
                 <!-- Display options -->
                 <div *ngFor="let answer of question.answers">
-                  <label>
+                  <label style="font-weight: 500;">
                     <input type="radio" name="question{{ question.id }}" [value]="answer.id"
                       (change)="selectAnswer(question.id, answer.id)">
                     {{ answer.text }}
@@ -38,6 +38,7 @@
             </div>
           </div>
         </div>
+        
       </div>
       <div class="col-lg-3">
         <div class="section-heading">
