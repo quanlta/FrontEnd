@@ -11,7 +11,7 @@
     </div>
   </div>
   <div class="section-heading wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
-    <h4 style="margin-left: 200px;">Total Point:  <em>{{quiz.totalPoint}}</em></h4>
+    <h4 style="margin-left: 200px;">Total Point:  <em>{{quiz.totalPoint}} Points</em></h4>
   </div>
   <div class="container-fluid" data-wow-duration="1s" data-wow-delay="0.7s">
     <div class="row">
@@ -26,7 +26,7 @@
               <!-- Display questions -->
               <div *ngFor="let question of quiz.question; let i = index">
                 <h3 style="font-weight: 650;">Question {{ i + 1 }}: {{ question.text }} 
-                  <span style="font-weight: normal;">({{ question.point }} point)</span>
+                  <span style="font-weight: normal;">({{ question.point }} points)</span>
               </h3>
                               <!-- Display options -->
                 <div *ngFor="let answer of question.answers">
