@@ -140,6 +140,7 @@ export class Video {
 export class Quiz {
   constructor(
     public quizId?: number,
+    public totalPoint?: number,
     public quizTitle?: string,
     public question?: Question[]
   ) {}

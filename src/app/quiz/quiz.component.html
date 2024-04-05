@@ -10,7 +10,9 @@
       </div>
     </div>
   </div>
-
+  <div class="section-heading wow fadeInLeft" data-wow-duration="1s" data-wow-delay="0.3s">
+    <h4 style="margin-left: 200px;">Total Point:  <em>{{quiz.totalPoint}}</em></h4>
+  </div>
   <div class="container-fluid" data-wow-duration="1s" data-wow-delay="0.7s">
     <div class="row">
       <div class="col-lg-9">
@@ -23,8 +25,10 @@
               <h2>{{ quiz.quizTitle }}</h2>
               <!-- Display questions -->
               <div *ngFor="let question of quiz.question; let i = index">
-                <h3 style="font-weight: 650;">Question {{ i + 1 }}: {{ question.text }}</h3>
-                <!-- Display options -->
+                <h3 style="font-weight: 650;">Question {{ i + 1 }}: {{ question.text }} 
+                  <span style="font-weight: normal;">({{ question.point }} point)</span>
+              </h3>
+                              <!-- Display options -->
                 <div *ngFor="let answer of question.answers">
                   <label style="font-weight: 500;">
                     <input type="radio" name="question{{ question.id }}" [value]="answer.id"
@@ -49,7 +53,7 @@
             <ul style="list-style-type: none; padding: 0;">
                 <li *ngFor="let history of quizHistory" style="margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
                   <p style="margin: 0;color: black;"><strong>Time:</strong> {{ history.startTime | date:'medium' }}</p>
-                  <p style="margin: 0; color: black;"><strong>Total Points:</strong> <span style="font-weight: bold; color: green;">{{ history.point }}</span></p>
+                  <p style="margin: 0; color: black;"><strong>Your Points:</strong> <span style="font-weight: bold; color: green;">{{ history.point }} / {{quiz.totalPoint}}</span></p>
                 </li>
             </ul>
         </div>
