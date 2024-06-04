@@ -8,7 +8,7 @@ import { CommentService } from '../comment.service';
 })
 export class CommentComponent implements OnInit {
   newCommentText: string = ''; // Initialize here
-  comment: Comment = new Comment(); // Assuming you have a Comment model
+  comment: Comment = new Comment(); 
 
   constructor(private commentService: CommentService) { }
 
